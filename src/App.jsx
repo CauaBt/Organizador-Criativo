@@ -1,21 +1,26 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 
 import Dashboard from "./pages/Dashboard"
-import Story from "./pages/Story"
-import ChapterEditor from "./pages/ChapterEditor"
+import Project from "./pages/Project"
 
-function App() {
+export default function App() {
+
   return (
     <BrowserRouter>
+
       <Routes>
 
+        {/* DASHBOARD */}
         <Route path="/" element={<Dashboard />} />
-        <Route path="/story" element={<Story />} />
-        <Route path="/chapter" element={<ChapterEditor />} />
+
+        {/* PROJETO COM ID */}
+        <Route path="/project/:id" element={<Project />} />
+
+        {/* FALLBACK (evita erro de rota) */}
+        <Route path="*" element={<Dashboard />} />
 
       </Routes>
+
     </BrowserRouter>
   )
 }
-
-export default App
