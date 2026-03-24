@@ -1,28 +1,83 @@
-/* RESET + BASE */
+/* BASE */
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+:root {
+
+    --color-estetica: #22c55e;
+    --color-personagens: #a855f7;
+    --color-capitulos: #3b82f6;
+    --color-timeline: #f97316;
+    --color-relacoes: #ec4899;
+
+    --bg: #f9fafb;
+    --card: #ffffff;
+    --text: #222;
+    --text-light: #666;
+    --border: #e5e5e5;
+
+    --primary: #6c5ce7;
+
+    font-family: system-ui, -apple-system, sans-serif;
 }
 
-body {
-    background: #fff7e2;
-    font-family: system-ui, sans-serif;
-    color: #1f1f1f;
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+
+    background: radial-gradient(circle at 20% 20%,
+            rgba(255, 133, 19, 0.15),
+            transparent 40%),
+        radial-gradient(circle at 80% 10%,
+            rgba(255, 63, 20, 0.12),
+            transparent 40%);
+
+    pointer-events: none;
+    z-index: -1;
 }
 
-h1, h2, h3 {
+
+/* HEADINGS */
+h1 {
+    font-size: 28px;
     margin-bottom: 10px;
 }
 
-button {
-    cursor: pointer;
-    font-family: inherit;
+h2 {
+    font-size: 20px;
+    margin-top: 20px;
 }
 
+h3 {
+    font-size: 18px;
+    margin: 0;
+}
+
+/* TEXT */
+p {
+    margin: 0;
+}
+
+/* BOTÃO PADRÃO */
+button {
+    padding: 6px 10px;
+    border: none;
+    border-radius: 6px;
+    background: #eee;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #ddd;
+}
+
+/* INPUTS */
 input,
 textarea,
 select {
-    font-family: inherit;
+    width: 100%;
+    margin-top: 8px;
+    margin-bottom: 10px;
+    padding: 6px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
 }

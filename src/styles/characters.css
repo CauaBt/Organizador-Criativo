@@ -1,0 +1,123 @@
+/* ===== GRID ===== */
+
+.characters-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+/* ===== CARD ===== */
+
+.character-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px;
+
+  border: 1px solid #eee;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+
+  position: relative;
+  transition: 0.2s;
+}
+
+.character-card:hover {
+  transform: translateY(-4px);
+}
+
+/* ===== CONTEÚDO ===== */
+
+.character-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* ===== HEADER ===== */
+
+.character-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* avatar azul claro */
+.avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+
+  background: #dbeafe;
+}
+
+/* nome */
+.character-header h4 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* papel */
+.tag {
+  font-size: 12px;
+  background: #dbeafe;
+  color: #2563eb;
+
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+/* descrição */
+.character-desc {
+  font-size: 13px;
+  color: #666;
+}
+
+/* ===== BARRINHAS (igual protótipo) ===== */
+
+.character-bars {
+  display: flex;
+  gap: 8px;
+}
+
+.character-bars div {
+  height: 16px;
+  flex: 1;
+  border-radius: 8px;
+
+  background: #c7d2fe;
+}
+
+/* ===== AÇÕES (MESMO PADRÃO DASHBOARD) ===== */
+
+.character-card .card-actions {
+  position: absolute;
+  inset: 0;
+
+  pointer-events: none;
+}
+
+.character-card .card-actions button {
+  opacity: 0;
+  transition: 0.2s;
+
+  pointer-events: auto;
+}
+
+.character-card:hover .card-actions button {
+  opacity: 1;
+}
+
+/* editar */
+.character-card .edit {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+/* deletar */
+.character-card .delete {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}

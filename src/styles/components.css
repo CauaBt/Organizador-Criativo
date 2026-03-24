@@ -2,16 +2,19 @@
 
 /* CARD */
 .story-card {
-  background: #fff;
+  background: var(--card);
   border-radius: 16px;
   padding: 20px;
 
-  /* troca borda por sombra suave */
   border: 1px solid #f0f0f0;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 
   transition: 0.2s;
   position: relative;
+
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .story-card:hover {
@@ -19,73 +22,77 @@
   box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
 }
 
-/* AÇÕES DO CARD */
+/* AÇÕES */
 .card-actions {
   position: absolute;
   inset: 0;
+
+  pointer-events: none;
 }
 
 .card-actions button {
   opacity: 0;
   transition: 0.2s;
+
+  pointer-events: auto;
 }
+
 
 .story-card:hover .card-actions button {
   opacity: 1;
 }
 
-/* EDITAR */
 .card-actions .edit {
   position: absolute;
   top: 10px;
   right: 10px;
 }
 
-/* DELETAR */
 .card-actions .delete {
   position: absolute;
   bottom: 10px;
   right: 10px;
 }
 
-/* BOTÕES */
-button {
-  padding: 6px 10px;
-  border: none;
-  border-radius: 6px;
-  background: #eee;
+/* TEXTOS */
+.story-card h3 {
+  font-weight: 600;
 }
 
-button:hover {
-  background: #ddd;
+.story-card p {
+  font-size: 14px;
+  color: var(--text-light);
 }
 
-/* INPUTS */
-input,
-textarea,
-select {
-  width: 100%;
-  margin-top: 8px;
-  margin-bottom: 10px;
-  padding: 6px;
-  border-radius: 6px;
-  border: 1px solid #ccc;
+.genero {
+  font-size: 12px;
+  color: #999;
 }
 
-/* PALETA */
+/* CORES */
 .color-palette {
   display: flex;
   gap: 10px;
-  margin-top: 12px;
+  margin-top: 10px;
 }
 
 .color-box {
   width: 28px;
   height: 28px;
-  border-radius: 8px;
+  border-radius: 10px;
 
-  border: 1px solid #e5e5e5;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+  border: 1px solid var(--border);
+  transition: 0.2s;
+}
+
+.color-box:hover {
+  transform: scale(1.1);
+}
+
+/* HUMOR */
+.humor {
+  font-size: 13px;
+  margin-top: 6px;
 }
 
 /* TAGS */
@@ -93,61 +100,63 @@ select {
   display: flex;
   gap: 6px;
   flex-wrap: wrap;
-  margin-top: 6px;
 }
 
 .tags span {
   font-size: 12px;
-  padding: 4px 8px;
+  padding: 4px 10px;
   border-radius: 20px;
   background: #f3f3f3;
-}
-
-/* HUMOR */
-.humor {
-  margin-top: 10px;
-  font-size: 13px;
-}
-
-/* GÊNERO */
-.genero {
-  font-size: 13px;
-  color: #888;
+  color: #555;
 }
 
 /* PROGRESSO */
+.progress-section {
+  margin-top: 12px;
+}
+
+.progress-title {
+  font-size: 13px;
+  color: #777;
+  margin: 8px 0;
+}
+
+.divider {
+  height: 1px;
+  background: #eee;
+  margin: 10px 0;
+}
+
 .progresso {
-  margin-top: 16px;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  gap: 8px;
 }
 
 .progresso div {
-  display: flex;
-  flex-direction: column;
-  padding: 10px;
-  border-radius: 10px;
-
-  background: #fafafa;
-  border-left: 4px solid #ddd;
+  padding: 12px;
+  border-radius: 12px;
 }
 
-/* cores por bloco */
+/* CORES SUAVES */
 .progresso div:nth-child(1) {
-  border-left-color: #4caf50;
+  background: rgba(76, 175, 80, 0.12);
+  color: #2e7d32;
 }
 
 .progresso div:nth-child(2) {
-  border-left-color: #2196f3;
+  background: rgba(33, 150, 243, 0.12);
+  color: #1565c0;
 }
 
 .progresso div:nth-child(3) {
-  border-left-color: #9c27b0;
+  background: rgba(156, 39, 176, 0.12);
+  color: #6a1b9a;
 }
 
 .progresso div:nth-child(4) {
-  border-left-color: #ff9800;
+  background: rgba(255, 152, 0, 0.12);
+  color: #ef6c00;
 }
 
 .progresso strong {
@@ -156,12 +165,12 @@ select {
 
 .progresso span {
   font-size: 12px;
-  color: #666;
+  opacity: 0.8;
 }
 
 /* DATA */
 .last-edit {
-  margin-top: 14px;
+  margin-top: 10px;
   font-size: 12px;
   color: #888;
 
