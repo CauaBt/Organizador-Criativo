@@ -1,10 +1,4 @@
-/* botão */
-.create-chapter-btn {
-  margin-top: 10px;
-  width: fit-content;
-}
-
-/* grid */
+/* grid mais bonito */
 .chapters-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -24,6 +18,12 @@
   position: relative;
   cursor: pointer;
   transition: 0.2s;
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+  min-height: 140px;
 }
 
 .chapter-card:hover {
@@ -31,19 +31,49 @@
   box-shadow: 0 8px 20px rgba(0,0,0,0.08);
 }
 
+/* ===== HEADER ===== */
+
+.chapter-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.chapter-index {
+  font-size: 12px;
+  font-weight: 600;
+  color: #f2a93b; /* amarelo padrão do sistema */
+}
+
+/* título */
 .chapter-card h3 {
-  margin-bottom: 6px;
+  font-size: 15px;
+  margin: 0;
+  color: #333;
 }
 
-.chapter-preview {
-  font-size: 13px;
-  color: #666;
+/* ===== DESCRIÇÃO ===== */
+
+.chapter-preview,
+.character-desc {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-/* ações */
+
+/* ===== FOOTER ===== */
+
+.chapter-footer {
+  margin-top: auto;
+  font-size: 12px;
+  color: #999;
+}
+
+/* ===== AÇÕES ===== */
+
 .chapter-card .card-actions {
-  position: absolute;
-  inset: 0;
   pointer-events: none;
 }
 
@@ -67,26 +97,4 @@
   position: absolute;
   bottom: 10px;
   right: 10px;
-}
-
-/* editor */
-.chapter-editor {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.chapter-textarea {
-  width: 100%;
-  min-height: 400px;
-
-  padding: 16px;
-
-  border-radius: 16px;
-  border: 1px solid #ddd;
-
-  font-size: 14px;
-  line-height: 1.6;
-
-  resize: vertical;
 }

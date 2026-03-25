@@ -99,21 +99,40 @@ export default function Chapters({ projeto }) {
         ) : (
           <div className="chapters-grid">
 
-            {capitulos.map((c) => (
+            {capitulos.map((c, index) => (
               <div
                 key={c.id}
                 className="chapter-card"
                 onClick={() => setCapituloAtivo(c)}
               >
 
-                <h3>{c.titulo}</h3>
+                {/* HEADER */}
+                <div className="chapter-header">
+                  <span className="chapter-index">
+                    Capítulo {index + 1}
+                  </span>
 
+                  <h3>{c.titulo || "Sem título"}</h3>
+                </div>
+
+                {/* DESCRIÇÃO */}
                 <p className="chapter-preview">
                   {c.texto
-                    ? c.texto.slice(0, 80) + "..."
+                    ? c.texto.length > 100
+                      ? c.texto.slice(0, 100) + "..."
+                      : c.texto
                     : "Sem conteúdo ainda"}
+
                 </p>
 
+                {/* FOOTER */}
+                <div className="chapter-footer">
+                  <span>
+                    📄 {c.texto?.length || 0} caracteres
+                  </span>
+                </div>
+
+                {/* AÇÕES */}
                 <div className="card-actions">
 
                   <button
@@ -140,6 +159,7 @@ export default function Chapters({ projeto }) {
 
               </div>
             ))}
+
 
           </div>
         )}
@@ -228,10 +248,13 @@ export default function Chapters({ projeto }) {
           setCapitulos(atualizados)
           salvarCapitulos(projeto.id, atualizados)
 
-          setCapituloAtivo({
+          const atualizado = {
             ...capituloAtivo,
             texto: novoTexto
-          })
+          }
+
+          setCapituloAtivo(atualizado)
+
         }}
         placeholder="Escreva seu capítulo aqui..."
       />

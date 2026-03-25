@@ -15,6 +15,8 @@ import './styles/components/header.css'
 
 import './styles/features/aesthetic.css'
 import './styles/features/characters.css'
+import './styles/features/chapter.css'
+import './styles/features/timeline.css'
 
 
 
