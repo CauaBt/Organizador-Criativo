@@ -16,37 +16,21 @@
   gap: 20px;
 }
 
-/* ===== CARDS (ESSENCIAL) ===== */
+/* ===== CARDS ===== */
 
 .aesthetic-content > div {
   background: #fff;
   border-radius: 16px;
   padding: 20px;
-
   border: 1px solid #eee;
 }
 
-/* ===== TÍTULOS ===== */
-
-.aesthetic-content h2 {
-  margin-bottom: 10px;
-}
+/* ===== TITULOS ===== */
 
 .aesthetic-content h3 {
   font-size: 15px;
   margin-bottom: 10px;
   color: #333;
-}
-
-/* ===== INPUTS ===== */
-
-.aesthetic-content input {
-  width: 100%;
-  padding: 10px;
-  border-radius: 10px;
-  border: 1px solid #ddd;
-
-  margin-bottom: 10px;
 }
 
 /* ===== BOTÕES ===== */
@@ -68,22 +52,82 @@
 .color-palette {
   display: flex;
   gap: 10px;
-  margin-top: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+
+  min-height: 25px;
 }
 
 .color-box {
   width: 36px;
   height: 36px;
   border-radius: 12px;
-
   border: 1px solid #eee;
-  cursor: pointer;
-  transition: 0.2s;
 }
 
-.color-box:hover {
-  transform: scale(1.1);
+.color-item {
+  position: relative;
 }
+
+.color-picker {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+.color-add {
+  width: 36px;
+  height: 36px;
+
+  border: 2px dashed #ddd;
+  border-radius: 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+  position: relative;
+
+  color: #999;
+  font-size: 18px;
+
+  transition: all 0.2s;
+}
+
+.color-add:hover {
+  border-color: #f2a93b;
+  color: #f2a93b;
+  background: rgba(242, 169, 59, 0.1);
+}
+
+/* esconde o input */
+.color-add input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* ===== CONTROLES DA COR ===== */
+
+.color-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+}
+
+/* preview da cor escolhida */
+.color-preview {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  border: 2px solid #ddd;
+}
+
 
 /* ===== TAGS ===== */
 
@@ -94,24 +138,51 @@
   margin-top: 10px;
 }
 
+.tag-item {
+  position: relative;
+}
+
 .tags span {
-  font-size: 13px;
   padding: 6px 12px;
   border-radius: 20px;
   background: #f3f3f3;
-  cursor: pointer;
-  transition: 0.2s;
 }
-
-.tags span:hover {
-  background: #e5e5e5;
-}
-
-/* ===== HUMOR ATIVO (IGUAL PROTÓTIPO) ===== */
 
 .tags span.active {
   background: #ffe0b2;
   border: 1px solid #ff9800;
+}
+
+/* ===== BOTÃO X ===== */
+
+.remove-btn {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+
+  width: 18px;
+  height: 18px;
+
+  border-radius: 50%;
+  border: none;
+
+  background: #ef4444;
+  color: white;
+
+  font-size: 11px;
+  cursor: pointer;
+
+  opacity: 0;
+  transition: 0.2s;
+}
+
+.color-item:hover .remove-btn,
+.tag-item:hover .remove-btn {
+  opacity: 1;
+}
+
+.remove-btn:hover {
+  transform: scale(1.1);
 }
 
 /* ===== SIDEBAR ===== */
@@ -120,25 +191,14 @@
   position: sticky;
   top: 20px;
 
-  height: fit-content;
-
   background: #fff;
   border-radius: 16px;
   padding: 20px;
-
   border: 1px solid #eee;
 }
 
-/* ===== SIDEBAR CONTENT ===== */
-
 .preview-section {
   margin-bottom: 16px;
-}
-
-.preview-section p {
-  font-size: 13px;
-  color: #666;
-  margin-bottom: 6px;
 }
 
 .preview-colors {
@@ -147,8 +207,7 @@
 }
 
 .preview-colors div {
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   border-radius: 10px;
-  border: 1px solid #eee;
 }

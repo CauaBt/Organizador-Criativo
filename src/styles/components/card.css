@@ -65,6 +65,10 @@
   margin-top: 6px;
 }
 
+.card-spacer {
+  flex: 1;
+}
+
 /* ========================= */
 /* CORES */
 /* ========================= */
@@ -130,7 +134,7 @@
   margin-top: 8px;
   font-size: 11px;
   color: #777;
-
+  width: 65%;
   display: inline-block;
   padding: 4px 8px;
   border-radius: 6px;
@@ -149,9 +153,20 @@
 }
 
 .card-actions button {
+  width: 34px;
+  height: 34px;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
   opacity: 0;
   transition: 0.2s;
   pointer-events: auto;
+  cursor: pointer;
+}
+.card-actions button:hover{
+  background-color: rgba(0,0,0,0.1);
 }
 
 .card:hover .card-actions button {
@@ -162,10 +177,26 @@
   position: absolute;
   top: 8px;
   right: 8px;
+
+  background: rgba(59, 130, 246, 0.12);
 }
 
 .card-actions .delete {
   position: absolute;
   bottom: 8px;
   right: 8px;
+
+  background: rgba(239, 68, 68, 0.12);
+}
+
+.icon-edit {
+  color: #1565c0;
+}
+.icon-delete {
+  color: red;
+}
+
+.card-actions svg {
+  width: 16px;
+  height: 16px;
 }

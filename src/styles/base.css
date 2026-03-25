@@ -1,5 +1,5 @@
 :root {
-  --bg: #f9fafb;
+  --bg: #fbfaf9;
   --card: #ffffff;
   --text: #222;
   --text-light: #666;
@@ -14,13 +14,13 @@ body::before {
   inset: 0;
 
   background:
-    radial-gradient(circle at 20% 20%, rgba(255,133,19,0.15), transparent 40%),
-    radial-gradient(circle at 80% 10%, rgba(255,63,20,0.12), transparent 40%);
+    radial-gradient(circle at 80% 50%, rgba(255, 176, 19, 0.15), transparent 40%),
+    radial-gradient(circle at 30% 10%, rgba(250, 73, 33, 0.12), transparent 40%);
 
   z-index: -1;
 }
 
-h1 { font-size: 28px; margin-bottom: 10px; }
+h1 { font-size: 28px; margin-bottom: 10px;}
 h2 { font-size: 20px; margin-top: 20px; }
 h3 { font-size: 18px; margin: 0; }
 

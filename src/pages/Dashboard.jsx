@@ -32,24 +32,28 @@ export default function Dashboard() {
     let atualizados
 
     if (editando) {
+      // ✏️ edição
       atualizados = projetos.map(p =>
         p.id === projeto.id
           ? {
-            ...p,
-            ...projeto,
-            atualizadoEm: new Date().toISOString()
-          }
+              ...p,
+              ...projeto,
+              atualizadoEm: new Date().toISOString()
+            }
           : p
       )
     } else {
+      // ➕ criação
       atualizados = [
         ...projetos,
         {
           ...projeto,
           id: Date.now(),
+
           capitulos: [],
           personagens: [],
           relacoes: [],
+
           estetica: {
             cores: [],
             imagem: null,
@@ -57,6 +61,7 @@ export default function Dashboard() {
             humor: "",
             tags: []
           },
+
           atualizadoEm: new Date().toISOString()
         }
       ]
@@ -94,13 +99,12 @@ export default function Dashboard() {
         variant="primary"
         className="create-project-btn"
         onClick={() => {
-          setEditando(null)
+          setEditando(null) // importante
           setMostrarModal(true)
         }}
       >
         + Criar Projeto
       </Button>
-
 
       <h2>Minhas Histórias</h2>
 
@@ -130,7 +134,6 @@ export default function Dashboard() {
       {mostrarModal && (
         <ProjectModal
           projeto={editando}
-          setProjeto={setEditando}
           onClose={() => {
             setMostrarModal(false)
             setEditando(null)
@@ -139,6 +142,7 @@ export default function Dashboard() {
         />
       )}
 
+      {/* MODAL DELETE */}
       {confirmDelete && (
         <ConfirmModal
           projeto={confirmDelete}

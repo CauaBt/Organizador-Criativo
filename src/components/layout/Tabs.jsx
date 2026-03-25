@@ -1,18 +1,15 @@
 export default function Tabs({ tabs, active, onChange }) {
-
   return (
     <div className="tabs">
-
-      {tabs.map((tab) => (
+      {tabs.map((t) => (
         <button
-          key={tab.id}
-          className={active === tab.id ? "tab active" : "tab"}
-          onClick={() => onChange(tab.id)}
+          key={t.id}
+          className={`tab ${active === t.id ? "active" : ""}`}
+          onClick={() => onChange(t.id)}
         >
-          {tab.label}
+          {t.label}
         </button>
       ))}
-
     </div>
   )
 }

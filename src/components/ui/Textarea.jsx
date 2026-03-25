@@ -12,7 +12,7 @@ export default function Textarea({
 
       <textarea
         className={`form-input textarea ${className}`}
-        value={value}
+        value={value || ""}
         onChange={onChange}
         placeholder={placeholder}
         {...props}

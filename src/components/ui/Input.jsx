@@ -12,7 +12,7 @@ export default function Input({
 
       <input
         className={`form-input ${className}`}
-        value={value}
+        value={value || ""}
         onChange={onChange}
         placeholder={placeholder}
         {...props}

@@ -48,3 +48,29 @@
 .btn-danger:hover {
   transform: translateY(-1px);
 }
+
+.tag-item button.remove-btn {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+
+  width: 18px;
+  height: 18px;
+
+  border-radius: 50%;
+  border: none;
+
+  background: #ef4444;
+  color: white;
+
+  font-size: 12px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  opacity: 0;
+  transition: 0.2s;
+}
