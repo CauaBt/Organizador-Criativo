@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 
 import MainLayout from "../components/layout/MainLayout"
@@ -16,29 +16,19 @@ export default function Project() {
   const navigate = useNavigate()
   const { id } = useParams()
 
-  // CARREGAR COM SEGURANÇA
-  let projetos = []
-  try {
-    projetos = JSON.parse(localStorage.getItem("projetos")) || []
-  } catch {
-    projetos = []
-  }
-
-  const projeto = projetos.find(p => p.id === Number(id))
-
-  // PROTEÇÃO MELHORADA
-  if (!projeto) {
-    return (
-      <div style={{ padding: "20px" }}>
-        <h2>Projeto não encontrado</h2>
-        <button onClick={() => navigate("/")}>
-          Voltar
-        </button>
-      </div>
-    )
-  }
-
+  const [projeto, setProjeto] = useState(null)
   const [tab, setTab] = useState("aesthetic")
+
+  // 🔹 carregar projeto com segurança
+  useEffect(() => {
+    try {
+      const projetos = JSON.parse(localStorage.getItem("projetos")) || []
+      const encontrado = projetos.find(p => p.id === Number(id))
+      setProjeto(encontrado)
+    } catch {
+      setProjeto(null)
+    }
+  }, [id])
 
   const tabs = [
     { id: "aesthetic", label: "Estética" },
@@ -68,6 +58,23 @@ export default function Project() {
       default:
         return null
     }
+  }
+
+  // 🔹 loading
+  if (projeto === null) {
+    return <p style={{ padding: "20px" }}>Carregando...</p>
+  }
+
+  // 🔹 projeto não encontrado
+  if (!projeto) {
+    return (
+      <div style={{ padding: "20px" }}>
+        <h2>Projeto não encontrado</h2>
+        <button onClick={() => navigate("/")}>
+          Voltar
+        </button>
+      </div>
+    )
   }
 
   return (

@@ -4,7 +4,7 @@ export default function BaseModal({ children, onClose }) {
     <div className="modal-overlay" onClick={onClose}>
 
       <div
-        className="modal"
+        className="modal-container"
         onClick={(e) => e.stopPropagation()}
       >
         {children}

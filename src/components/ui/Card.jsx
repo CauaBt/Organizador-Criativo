@@ -1,6 +1,6 @@
-export default function Card({ children }) {
+export default function Card({ children, className = "", ...props }) {
   return (
-    <div className="card">
+    <div className={`card ${className}`} {...props}>
       {children}
     </div>
   )

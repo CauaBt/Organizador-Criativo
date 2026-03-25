@@ -1,18 +1,21 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import './index.css'
 import App from './App.jsx'
 
 import './styles/base.css'
 import './styles/layout.css'
-import './styles/components.css'
 
-import './styles/aesthetic.css'
-import './styles/characters.css'
+import './styles/components/card.css'
+import './styles/components/button.css'
+import './styles/components/modal.css'
+import './styles/components/form.css'
+import './styles/components/tags.css'
+
+import './styles/features/aesthetic.css'
+import './styles/features/characters.css'
+
 
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
     <App />
-  </StrictMode>,
 )

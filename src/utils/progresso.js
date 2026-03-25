@@ -7,13 +7,13 @@ export function calcularProgresso(projeto) {
   if (projeto.estetica?.tags?.length) estetica += 30
 
   const personagens = projeto.personagens?.length || 0
-  const cenas = projeto.capitulos?.length || 0
-  const timeline = projeto.capitulos?.length || 0
+  const capitulos = projeto.capitulos?.length || 0
+  const relacoes = projeto.relacoes?.length || 0
 
   return {
     estetica,
     personagens,
-    cenas,
-    timeline
+    capitulos, 
+    relacoes   
   }
 }

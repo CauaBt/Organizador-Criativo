@@ -1,11 +1,13 @@
 import { useState, useEffect } from "react"
 import { useNavigate, useLocation } from "react-router-dom"
 
-import { tempoRelativo } from "../utils/tempo"
-import { calcularProgresso } from "../utils/progresso"
 import { getProjetos, saveProjetos } from "../services/projetosService"
 
-import ProjectFormModal from "../components/modals/ProjectFormModal"
+import ProjectCard from "../components/ui/ProjectCard"
+import Button from "../components/ui/Button"
+import EmptyState from "../components/ui/EmptyState"
+
+import ProjectModal from "../components/modals/ProjectModal"
 import ConfirmModal from "../components/modals/ConfirmModal"
 
 export default function Dashboard() {
@@ -18,11 +20,13 @@ export default function Dashboard() {
   const [editando, setEditando] = useState(null)
   const [confirmDelete, setConfirmDelete] = useState(null)
 
+  // 🔹 carregar projetos
   useEffect(() => {
     const saved = getProjetos() || []
     setProjetos(saved)
   }, [location])
 
+  // 🔹 salvar projeto
   function handleSave(projeto) {
 
     let atualizados
@@ -31,10 +35,10 @@ export default function Dashboard() {
       atualizados = projetos.map(p =>
         p.id === projeto.id
           ? {
-              ...p,
-              ...projeto,
-              atualizadoEm: new Date().toISOString()
-            }
+            ...p,
+            ...projeto,
+            atualizadoEm: new Date().toISOString()
+          }
           : p
       )
     } else {
@@ -42,6 +46,7 @@ export default function Dashboard() {
         ...projetos,
         {
           ...projeto,
+          id: Date.now(),
           capitulos: [],
           personagens: [],
           relacoes: [],
@@ -64,11 +69,13 @@ export default function Dashboard() {
     setEditando(null)
   }
 
+  // 🔹 editar
   function editarProjeto(p) {
     setEditando(p)
     setMostrarModal(true)
   }
 
+  // 🔹 deletar
   function deletarProjeto(id) {
     const atualizados = projetos.filter(p => p.id !== id)
 
@@ -83,124 +90,47 @@ export default function Dashboard() {
 
       <h1>Organizador Criativo</h1>
 
-      <button onClick={() => {
-        setEditando(null)
-        setMostrarModal(true)
-      }}>
+      <Button
+        variant="primary"
+        className="create-project-btn"
+        onClick={() => {
+          setEditando(null)
+          setMostrarModal(true)
+        }}
+      >
         + Criar Projeto
-      </button>
+      </Button>
+
 
       <h2>Minhas Histórias</h2>
 
       <div className="projects-grid">
 
         {projetos.length === 0 ? (
-          <p>Nenhum projeto criado</p>
+          <EmptyState
+            title="Nenhum projeto ainda"
+            description="Crie sua primeira história"
+            actionText="Criar Projeto"
+            onAction={() => setMostrarModal(true)}
+          />
         ) : (
-          projetos.map((p) => {
-
-            const progresso = calcularProgresso(p)
-
-            return (
-              <div
-                key={p.id}
-                className="story-card"
-                onClick={() => navigate(`/project/${p.id}`)}
-              >
-
-                <h3>{p.titulo}</h3>
-
-                <p>{p.descricao}</p>
-
-                <p className="genero">
-                  {p.genero}
-                </p>
-
-                <div className="color-palette">
-                  {p.estetica?.cores?.map((cor, i) => (
-                    <div
-                      key={i}
-                      className="color-box"
-                      style={{ backgroundColor: cor }}
-                    />
-                  ))}
-                </div>
-
-                <p className="humor">
-                  {p.estetica?.humor}
-                </p>
-
-                <div className="tags">
-                  {p.estetica?.tags?.map((tag, i) => (
-                    <span key={i}>{tag}</span>
-                  ))}
-                </div>
-
-                {/* PROGRESSO */}
-                <div className="progresso">
-
-                  <div>
-                    <strong>{progresso.estetica}%</strong>
-                    <span>Estética</span>
-                  </div>
-
-                  <div>
-                    <strong>{progresso.personagens}</strong>
-                    <span>Personagens</span>
-                  </div>
-
-                  <div>
-                    <strong>{progresso.capitulos}</strong>
-                    <span>Capítulos</span>
-                  </div>
-
-                  <div>
-                    <strong>{progresso.relacoes}</strong>
-                    <span>Relações</span>
-                  </div>
-
-                </div>
-
-                <p className="last-edit">
-                  {p.atualizadoEm
-                    ? tempoRelativo(p.atualizadoEm)
-                    : "Sem edição"}
-                </p>
-
-                <div className="card-actions">
-
-                  <button
-                    className="edit"
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      editarProjeto(p)
-                    }}
-                  >
-                    .
-                  </button>
-
-                  <button
-                    className="delete"
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      setConfirmDelete(p)
-                    }}
-                  >
-                    .
-                  </button>
-
-                </div>
-
-              </div>
-            )
-          })
+          projetos.map((p) => (
+            <ProjectCard
+              key={p.id}
+              projeto={p}
+              onEdit={editarProjeto}
+              onDelete={setConfirmDelete}
+            />
+          ))
         )}
 
       </div>
 
+      {/* MODAL CRIAR / EDITAR */}
       {mostrarModal && (
-        <ProjectFormModal
+        <ProjectModal
           projeto={editando}
+          setProjeto={setEditando}
           onClose={() => {
             setMostrarModal(false)
             setEditando(null)
@@ -211,7 +141,7 @@ export default function Dashboard() {
 
       {confirmDelete && (
         <ConfirmModal
-          message="Deseja deletar este projeto?"
+          projeto={confirmDelete}
           onConfirm={() => deletarProjeto(confirmDelete.id)}
           onClose={() => setConfirmDelete(null)}
         />
