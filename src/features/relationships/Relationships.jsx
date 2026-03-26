@@ -52,10 +52,8 @@ export default function Relationships({ projeto, setProjeto }) {
     setMostrarModal(false)
   }
 
-  // =========================
   // DELETE
-  // =========================
-
+  
   function deletarConfirmado() {
     const atualizados = relacoes.filter(r => r.id !== confirmDelete.id)
 

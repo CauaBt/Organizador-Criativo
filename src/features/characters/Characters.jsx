@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { salvarPersonagens } from "./characterStore"
 
 import Button from "../../components/ui/Button"
@@ -8,6 +8,11 @@ import BaseModal from "../../components/modals/BaseModal"
 import { FiEdit2, FiTrash2, FiUser } from "react-icons/fi"
 
 export default function Characters({ projeto, setProjeto }) {
+
+  useEffect(() => {
+    setPersonagens(projeto.personagens || [])
+  }, [projeto.personagens])
+
 
   const [personagens, setPersonagens] = useState(projeto.personagens || [])
 
@@ -21,6 +26,8 @@ export default function Characters({ projeto, setProjeto }) {
 
   const [cores, setCores] = useState([])
   const [novaCor, setNovaCor] = useState("#000000")
+
+
 
   function abrirCriar() {
     setNome("")
@@ -88,6 +95,7 @@ export default function Characters({ projeto, setProjeto }) {
 
   function deletarConfirmado() {
     const atualizados = personagens.filter(p => p.id !== confirmDelete.id)
+
     setPersonagens(atualizados)
 
     setProjeto({
@@ -99,7 +107,9 @@ export default function Characters({ projeto, setProjeto }) {
     setConfirmDelete(null)
   }
 
+
   return (
+
     <div>
 
       <h2>Personagens</h2>

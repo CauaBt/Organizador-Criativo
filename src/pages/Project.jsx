@@ -44,7 +44,12 @@ export default function Project() {
         return <Aesthetic projeto={projeto} />
 
       case "characters":
-        return <Characters projeto={projeto} />
+        return (
+          <Characters
+            projeto={projeto}
+            setProjeto={setProjeto}
+          />
+        )
 
       case "chapters":
         return (
@@ -107,6 +112,5 @@ export default function Project() {
       {renderTab()}
 
     </MainLayout>
-
   )
 }

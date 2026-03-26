@@ -265,14 +265,7 @@ export default function Chapters({ projeto, setProjeto }) {
           )
 
           setCapitulos(atualizados)
-
-          setProjeto({
-            ...projeto,
-            capitulos: atualizados
-          })
-
           salvarCapitulos(projeto.id, atualizados)
-
 
           const atualizado = {
             ...capituloAtivo,
