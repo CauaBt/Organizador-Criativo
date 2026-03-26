@@ -1,0 +1,33 @@
+:root {
+  --bg: #ff8faf;
+  --card: #ffffff;
+  --text: #222;
+  --text-light: #666;
+  --border: #e5e5e5;
+
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+
+  background: #ffc8ac63;
+
+  z-index: -1;
+}
+
+h1 { font-size: 28px; margin-bottom: 10px;}
+h2 { font-size: 20px; margin-top: 20px; }
+h3 { font-size: 18px; margin: 0; }
+
+p { margin: 0; }
+
+input, textarea, select {
+  width: 100%;
+  margin: 8px 0 10px;
+  padding: 6px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}

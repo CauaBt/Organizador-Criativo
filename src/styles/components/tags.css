@@ -1,0 +1,17 @@
+
+/* TAGS */
+
+.tags {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.tags span {
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 12px;
+  background: #f3f3f3;
+  color: #555;
+}
