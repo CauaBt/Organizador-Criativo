@@ -31,7 +31,9 @@ export default function ProjectModal({ projeto, onClose, onSave }) {
   }
 
   function handleSubmit() {
-    if (!form.titulo.trim()) return // é pra evita vazio
+    if (!form.titulo.trim()) {
+      alert("Preencha pelo menos o título do seu projeto. Você pode edita-lo depois.")
+      return}
 
     onSave({
       ...projeto,

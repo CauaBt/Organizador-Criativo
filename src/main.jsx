@@ -17,6 +17,7 @@ import './styles/features/aesthetic.css'
 import './styles/features/characters.css'
 import './styles/features/chapter.css'
 import './styles/features/timeline.css'
+import './styles/features/relationships.css'
 
 
 

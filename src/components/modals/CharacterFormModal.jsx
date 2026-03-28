@@ -1,7 +1,11 @@
 import { useState } from "react"
-import Modal from "./Modal"
+import BaseModal from "./BaseModal"
 
 export default function CharacterFormModal({ onClose, onSave }) {
+
+  // =========================
+  // ESTADO
+  // =========================
 
   const [nome, setNome] = useState("")
   const [descricao, setDescricao] = useState("")
@@ -15,8 +19,12 @@ export default function CharacterFormModal({ onClose, onSave }) {
     "Vilão"
   ]
 
+  // =========================
+  // AÇÕES
+  // =========================
+
   function handleSave() {
-    if (!nome) return
+    if (!nome.trim()) return
 
     onSave({
       id: Date.now(),
@@ -28,8 +36,12 @@ export default function CharacterFormModal({ onClose, onSave }) {
     onClose()
   }
 
+  // =========================
+  // RENDER
+  // =========================
+
   return (
-    <Modal onClose={onClose}>
+    <BaseModal onClose={onClose}>
 
       <h3>Novo Personagem</h3>
 
@@ -59,11 +71,11 @@ export default function CharacterFormModal({ onClose, onSave }) {
         ))}
       </div>
 
-      <div className="modal-buttons">
+      <div className="modal-actions">
         <button onClick={handleSave}>Salvar</button>
         <button onClick={onClose}>Cancelar</button>
       </div>
 
-    </Modal>
+    </BaseModal>
   )
 }

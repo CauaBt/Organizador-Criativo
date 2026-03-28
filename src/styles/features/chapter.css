@@ -42,7 +42,7 @@
 .chapter-index {
   font-size: 12px;
   font-weight: 600;
-  color: #f2a93b; /* amarelo padrão do sistema */
+  color: #f2a93b;
 }
 
 /* título */
@@ -58,6 +58,7 @@
 .character-desc {
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }

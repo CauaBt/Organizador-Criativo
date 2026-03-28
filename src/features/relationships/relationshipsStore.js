@@ -1,4 +1,4 @@
-export function salvarRelacoes(projetoId, relacoes) {
+export function salvarRelacoes(projetoId, relacoes, tags) {
 
   const projetos = JSON.parse(localStorage.getItem("projetos")) || []
 
@@ -7,6 +7,7 @@ export function salvarRelacoes(projetoId, relacoes) {
       return {
         ...p,
         relacoes,
+        tags, // 
         atualizadoEm: new Date().toISOString()
       }
     }

@@ -161,7 +161,7 @@ export default function Chapters({ projeto, setProjeto }) {
                       abrirEditar(c)
                     }}
                   >
-                    <FiEdit2 />
+                    <FiEdit2 className="icon-edit" />
                   </button>
 
                   <button
@@ -171,7 +171,7 @@ export default function Chapters({ projeto, setProjeto }) {
                       setConfirmDelete(c)
                     }}
                   >
-                    <FiTrash2 />
+                    <FiTrash2 className="icon-delete" />
                   </button>
 
                 </div>

@@ -5,37 +5,67 @@ import Button from "../../components/ui/Button"
 import EmptyState from "../../components/ui/EmptyState"
 import BaseModal from "../../components/modals/BaseModal"
 
-import { FiTrash2, FiHeart } from "react-icons/fi"
+import { FiHeart, FiTrash2 } from "react-icons/fi"
 
 export default function Relationships({ projeto, setProjeto }) {
 
   const personagens = projeto.personagens || []
   const [relacoes, setRelacoes] = useState(projeto.relacoes || [])
+  const tags = projeto.tags || []
+
+  const [mostrarModal, setMostrarModal] = useState(false)
+  const [personagemSelecionado, setPersonagemSelecionado] = useState(null)
+  const [confirmReset, setConfirmReset] = useState(false)
 
   const [p1, setP1] = useState("")
   const [p2, setP2] = useState("")
   const [tipo, setTipo] = useState("")
 
-  const [mostrarModal, setMostrarModal] = useState(false)
-  const [confirmDelete, setConfirmDelete] = useState(null)
+  // =========================
+  // GERAR COR
+  // =========================
 
-  // CRIAR
-
-  function abrirModal() {
-    setP1("")
-    setP2("")
-    setTipo("")
-    setMostrarModal(true)
+  function gerarCor() {
+    const cores = [
+      "#fca5a5",
+      "#93c5fd",
+      "#86efac",
+      "#fde68a",
+      "#c4b5fd"
+    ]
+    return cores[Math.floor(Math.random() * cores.length)]
   }
 
+  // =========================
+  // CRIAR RELAÇÃO
+  // =========================
+
   function adicionarRelacao() {
-    if (!p1 || !p2) return
+    if (!p1 || !p2 || !tipo) return
+
+    if (p1 === p2) {
+      alert("Um personagem não pode se relacionar com ele mesmo")
+      return
+    }
+
+    const tipoFormatado = tipo.toLowerCase().trim()
+
+    let novasTags = [...tags]
+
+    const existeTag = tags.find(t => t.nome === tipoFormatado)
+
+    if (!existeTag) {
+      novasTags.push({
+        nome: tipoFormatado,
+        cor: gerarCor()
+      })
+    }
 
     const nova = {
       id: Date.now(),
-      p1,
-      p2,
-      tipo
+      p1: Number(p1),
+      p2: Number(p2),
+      tipo: tipoFormatado
     }
 
     const atualizados = [...relacoes, nova]
@@ -44,99 +74,255 @@ export default function Relationships({ projeto, setProjeto }) {
 
     setProjeto({
       ...projeto,
-      relacoes: atualizados
+      relacoes: atualizados,
+      tags: novasTags
     })
 
-    salvarRelacoes(projeto.id, atualizados)
+    salvarRelacoes(projeto.id, atualizados, novasTags)
 
     setMostrarModal(false)
+    setTipo("")
+    setP1("")
+    setP2("")
   }
 
-  // DELETE
-  
-  function deletarConfirmado() {
-    const atualizados = relacoes.filter(r => r.id !== confirmDelete.id)
+  // =========================
+  // RESET
+  // =========================
 
-    setRelacoes(atualizados)
+  function resetarRelacoes() {
+    setRelacoes([])
 
     setProjeto({
       ...projeto,
-      relacoes: atualizados
+      relacoes: [],
+      tags: []
     })
 
-    salvarRelacoes(projeto.id, atualizados)
-
-    setConfirmDelete(null)
+    salvarRelacoes(projeto.id, [], [])
   }
+
+  // =========================
+  // POSIÇÕES
+  // =========================
+
+  const tamanho = 450
+  const centro = tamanho / 2
+  const raio = 170
+
+  const posicoes = personagens.map((p, index) => {
+    const angulo = (index / personagens.length) * 2 * Math.PI
+
+    return {
+      ...p,
+      x: centro + Math.cos(angulo) * raio,
+      y: centro + Math.sin(angulo) * raio
+    }
+  })
+
+  // =========================
+  // RELAÇÕES DO PERSONAGEM
+  // =========================
+
+  const relacoesDoPersonagem = relacoes.filter(r =>
+    r.p1 === personagemSelecionado?.id ||
+    r.p2 === personagemSelecionado?.id
+  )
+
+  // =========================
+  // RENDER
+  // =========================
 
   return (
     <div>
 
       <h2>Relacionamentos</h2>
 
-      <Button
-        variant="primary"
-        className="create-relationship-btn"
-        onClick={abrirModal}
-      >
-        + Criar Relacionamento
-      </Button>
+      <div style={{ display: "flex", gap: "10px", marginBottom: "10px" }}>
+        <Button onClick={() => setMostrarModal(true)}>
+          + Criar Relacionamento
+        </Button>
 
-      {/* EMPTY */}
-      {relacoes.length === 0 ? (
+        <Button variant="danger" onClick={() => setConfirmReset(true)}>
+          Resetar Relações
+        </Button>
+      </div>
+
+      {personagens.length === 0 ? (
         <EmptyState
           icon={FiHeart}
-          title="Nenhum relacionamento mapeado"
-          description="Conecte personagens para criar uma rede de relações"
-          hint="Relacionamentos bem definidos dão profundidade à história"
-          actionText="Criar Relacionamento"
-          onAction={abrirModal}
+          title="Nenhum personagem"
+          description="Crie personagens primeiro"
+          actionText={"Crie um Personagem"}
         />
       ) : (
-        <div className="relationships-grid">
 
-          {relacoes.map((r) => (
-            <div key={r.id} className="relationship-card">
+        <div className="relationships-map">
 
-              <div className="relationship-content">
+          {/* LEGENDA */}
+          <div className="relationships-legend">
+            <div className="relationships-legend-title">
+              Legenda
+            </div>
 
-                <h3>
-                  {r.p1} <span className="link">↔</span> {r.p2}
-                </h3>
-
-                <p className="relationship-type">
-                  {r.tipo || "Sem tipo definido"}
-                </p>
-
+            {tags.map(tag => (
+              <div key={tag.nome} className="relationships-legend-item">
+                <div
+                  className="relationships-legend-color"
+                  style={{ background: tag.cor }}
+                />
+                <span className="relationships-legend-text">
+                  {tag.nome}
+                </span>
               </div>
+            ))}
+          </div>
 
-              <div className="card-actions">
-                <button
-                  className="delete"
-                  onClick={() => setConfirmDelete(r)}
-                >
-                  <FiTrash2 />
-                </button>
-              </div>
+          {/* LINHAS */}
+          <svg className="relationships-svg" width="100%" height="100%">
+            {relacoes.map(r => {
 
+              const a = posicoes.find(p => p.id === r.p1)
+              const b = posicoes.find(p => p.id === r.p2)
+              const tag = tags.find(t => t.nome === r.tipo)
+
+              if (!a || !b) return null
+
+              return (
+                <line
+                  key={r.id}
+                  x1={a.x}
+                  y1={a.y}
+                  x2={b.x}
+                  y2={b.y}
+                  stroke={tag?.cor || "#ccc"}
+                  strokeWidth={3}
+                  strokeLinecap="round"
+                  strokeOpacity={0.8}
+                />
+              )
+            })}
+          </svg>
+
+          {/* PERSONAGENS */}
+          {posicoes.map(p => (
+            <div
+              key={p.id}
+              className="relationship-node"
+              style={{ left: p.x, top: p.y }}
+              onClick={() => setPersonagemSelecionado(p)}
+            >
+              {p.nome}
             </div>
           ))}
 
         </div>
       )}
 
+      {/* ========================= */}
+      {/* MODAL PERSONAGEM */}
+      {/* ========================= */}
+
+      {personagemSelecionado && (
+        <BaseModal onClose={() => setPersonagemSelecionado(null)}>
+
+          <h3>{personagemSelecionado.nome}</h3>
+
+          {relacoesDoPersonagem.length === 0 ? (
+            <p>Sem relacionamentos</p>
+          ) : (
+            relacoesDoPersonagem.map(r => {
+
+              const outroId =
+                r.p1 === personagemSelecionado.id ? r.p2 : r.p1
+
+              const outro = personagens.find(p => p.id === outroId)
+              const tag = tags.find(t => t.nome === r.tipo)
+
+              return (
+                <div key={r.id} className="relationship-item">
+
+                  <strong>{outro?.nome}</strong>
+                  <p>{r.tipo}</p>
+
+                  <div className="color-controls">
+
+                    <div className="color-add">
+
+                      <div
+                        className="color-preview"
+                        style={{ background: tag?.cor }}
+                      />
+
+                      <label className="color-button">
+                        +
+
+                        <input
+                          type="color"
+                          value={tag?.cor}
+                          onChange={(e) => {
+
+                            const novasTags = tags.map(t =>
+                              t.nome === r.tipo
+                                ? { ...t, cor: e.target.value }
+                                : t
+                            )
+
+                            setProjeto({
+                              ...projeto,
+                              tags: novasTags
+                            })
+
+                            salvarRelacoes(projeto.id, relacoes, novasTags)
+                          }}
+                        />
+                      </label>
+
+                    </div>
+
+                      <button className="delete" onClick={() => {
+
+                        const atualizados = relacoes.filter(rel => rel.id !== r.id)
+
+                        setRelacoes(atualizados)
+
+                        setProjeto({
+                          ...projeto,
+                          relacoes: atualizados,
+                          tags: tags
+                        })
+
+                        salvarRelacoes(projeto.id, atualizados, tags)
+
+                      }}>
+                        <FiTrash2 className="icon-delete" />
+                      </button>
+
+                  </div>
+
+                </div>
+              )
+            })
+          )}
+
+        </BaseModal>
+      )}
+
       {/* MODAL CRIAR */}
+
       {mostrarModal && (
         <BaseModal onClose={() => setMostrarModal(false)}>
 
-          <div className="modal-header">
-            <h3 className="modal-title">Novo Relacionamento</h3>
-          </div>
+          <h3>Novo Relacionamento</h3>
 
           <select value={p1} onChange={(e) => setP1(e.target.value)}>
             <option value="">Personagem 1</option>
             {personagens.map(p => (
-              <option key={p.id} value={p.nome}>
+              <option
+                key={p.id}
+                value={p.id}
+                disabled={Number(p2) === p.id}
+              >
                 {p.nome}
               </option>
             ))}
@@ -145,49 +331,88 @@ export default function Relationships({ projeto, setProjeto }) {
           <select value={p2} onChange={(e) => setP2(e.target.value)}>
             <option value="">Personagem 2</option>
             {personagens.map(p => (
-              <option key={p.id} value={p.nome}>
+              <option
+                key={p.id}
+                value={p.id}
+                disabled={Number(p1) === p.id}
+              >
                 {p.nome}
               </option>
             ))}
           </select>
 
+          <p style={{ fontSize: "12px", color: "#666", marginTop: "10px" }}>
+            Selecione um tipo existente:
+          </p>
+
+          <div className="tags-container">
+            {tags.map(tag => (
+              <div
+                key={tag.nome}
+                className={`tag ${tipo === tag.nome ? "active" : ""}`}
+                style={{ background: tag.cor }}
+                onClick={() => setTipo(tag.nome)}
+              >
+                {tag.nome}
+              </div>
+            ))}
+          </div>
+
+          <p style={{ fontSize: "12px", color: "#666", marginTop: "10px" }}>
+            Ou crie um novo tipo:
+          </p>
+
           <input
-            placeholder="Tipo (ex: amizade, rivalidade)"
+            placeholder="Novo tipo..."
             value={tipo}
             onChange={(e) => setTipo(e.target.value)}
           />
 
-          <div className="modal-actions">
-            <Button variant="secondary" onClick={() => setMostrarModal(false)}>
-              Cancelar
-            </Button>
-
-            <Button variant="primary" onClick={adicionarRelacao}>
-              Criar
-            </Button>
-          </div>
+          <Button onClick={adicionarRelacao}>
+            Criar
+          </Button>
 
         </BaseModal>
       )}
 
-      {/* DELETE */}
-      {confirmDelete && (
-        <BaseModal onClose={() => setConfirmDelete(null)}>
+      {/* CONFIRM RESET */}
+
+      {confirmReset && (
+        <BaseModal onClose={() => setConfirmReset(false)}>
+
+          <div className="modal-header">
+            <h3 className="modal-title">
+              Resetar relações
+            </h3>
+          </div>
 
           <p className="modal-text">
-            Deletar relação entre{" "}
-            <strong>{confirmDelete.p1}</strong> e{" "}
-            <strong>{confirmDelete.p2}</strong>?
+            Isso vai apagar todas as relações e tipos criados.
           </p>
 
+          <div className="modal-warning">
+            Essa ação não pode ser desfeita.
+          </div>
+
           <div className="modal-actions">
-            <Button variant="danger" onClick={deletarConfirmado}>
-              Deletar
+
+            <Button
+              variant="danger"
+              onClick={() => {
+                resetarRelacoes()
+                setConfirmReset(false)
+              }}
+            >
+              Resetar
             </Button>
 
-            <Button variant="secondary" onClick={() => setConfirmDelete(null)}>
+            <Button
+              variant="secondary"
+              onClick={() => setConfirmReset(false)}
+            >
               Cancelar
             </Button>
+
           </div>
 
         </BaseModal>
