@@ -1,4 +1,6 @@
+import { useState } from "react"
 import BaseModal from "../../../components/modals/BaseModal"
+import ConfirmModal from "../../../components/modals/ConfirmModal"
 import { FiTrash2 } from "react-icons/fi"
 
 export default function RelationshipDetailsModal({
@@ -10,6 +12,8 @@ export default function RelationshipDetailsModal({
   onDeleteRelacao,
   onChangeColor
 }) {
+
+  const [relacaoParaDeletar, setRelacaoParaDeletar] = useState(null)
 
   const relacoesDoPersonagem = relacoes.filter(r =>
     r.p1 === personagem.id || r.p2 === personagem.id
@@ -39,30 +43,27 @@ export default function RelationshipDetailsModal({
 
               <div className="color-controls">
 
+                {/* BOTÃO DE COR */}
                 <div className="color-add">
-
                   <div
                     className="color-preview"
                     style={{ background: tag?.cor }}
                   />
 
-                  <label className="color-button">
-                    +
-
-                    <input
-                      type="color"
-                      value={tag?.cor}
-                      onChange={(e) =>
-                        onChangeColor(r.tipo, e.target.value)
-                      }
-                    />
-                  </label>
-
+                  <input
+                    className="color-input"
+                    type="color"
+                    value={tag?.cor}
+                    onChange={(e) =>
+                      onChangeColor(r.tipo, e.target.value)
+                    }
+                  />
                 </div>
 
+                {/* BOTÃO DELETE */}
                 <button
                   className="delete"
-                  onClick={() => onDeleteRelacao(r.id)}
+                  onClick={() => setRelacaoParaDeletar(r.id)}
                 >
                   <FiTrash2 className="icon-delete" />
                 </button>
@@ -72,6 +73,20 @@ export default function RelationshipDetailsModal({
             </div>
           )
         })
+      )}
+
+      {/* MODAL DE CONFIRMAÇÃO */}
+      {relacaoParaDeletar && (
+        <ConfirmModal
+          title="Remover relação?"
+          message="Essa ação não pode ser desfeita."
+          confirmText="Remover"
+          onConfirm={() => {
+            onDeleteRelacao(relacaoParaDeletar)
+            setRelacaoParaDeletar(null)
+          }}
+          onClose={() => setRelacaoParaDeletar(null)}
+        />
       )}
 
     </BaseModal>

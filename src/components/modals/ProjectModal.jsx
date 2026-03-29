@@ -63,8 +63,9 @@ export default function ProjectModal({ projeto, onClose, onSave }) {
           label="Gênero"
           value={form.genero}
           onChange={(e) => handleChange("genero", e.target.value)}
-          placeholder="Fantasia, romance..."
+          placeholder="Ex: fantasia, romance..."
         />
+
 
         <div className="modal-actions">
           <Button variant="secondary" onClick={onClose}>

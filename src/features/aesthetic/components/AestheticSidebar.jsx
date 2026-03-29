@@ -30,9 +30,12 @@ export default function AestheticSidebar({
             <div className="preview-section">
                 <p>Músicas</p>
                 <div className="tags">
-                    {musicas.map((m, i) => (
-                        <span key={i}>{m}</span>
+                    {musicas.map((m) => (
+                        <span key={m.id}>
+                            {m.title} - {m.artist?.name || "Desconhecido"}
+                        </span>
                     ))}
+
                 </div>
             </div>
 

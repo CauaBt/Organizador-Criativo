@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { atualizarEstetica } from "./aestheticStore"
-import { adicionarItem, removerItem, toggleItem} from "./aestheticLogic"
+import { adicionarItem, removerItem, toggleItem } from "./aestheticLogic"
 
 import ColorSection from "./components/ColorSection"
 import MusicSection from "./components/MusicSection"
@@ -14,13 +14,13 @@ export default function Aesthetic({ projeto }) {
   const [novaCor, setNovaCor] = useState("#000000")
 
   const [musicas, setMusicas] = useState(projeto.estetica?.musicas || [])
-  const [novaMusica, setNovaMusica] = useState("")
 
   const [humores, setHumores] = useState(projeto.estetica?.humores || [])
   const [novoHumor, setNovoHumor] = useState("")
 
   const [tags, setTags] = useState(projeto.estetica?.tags || [])
   const [novaTag, setNovaTag] = useState("")
+
 
   const opcoesHumor = [
     "Sereno",
@@ -50,17 +50,6 @@ export default function Aesthetic({ projeto }) {
 
   function removerCor(index) {
     setCores(removerItem(cores, index))
-  }
-
-  // MÚSICAS
-
-  function adicionarMusica() {
-    setMusicas(adicionarItem(musicas, novaMusica))
-    setNovaMusica("")
-  }
-
-  function removerMusica(index) {
-    setMusicas(removerItem(musicas, index))
   }
 
   // HUMOR
@@ -108,13 +97,14 @@ export default function Aesthetic({ projeto }) {
           onRemove={removerCor}
         />
         {/* MÚSICAS */}
-
         <MusicSection
           musicas={musicas}
-          novaMusica={novaMusica}
-          setNovaMusica={setNovaMusica}
-          onAdd={adicionarMusica}
-          onRemove={removerMusica}
+          onAdd={(musica) => {
+            setMusicas(adicionarItem(musicas, musica))
+          }}
+          onRemove={(index) => {
+            setMusicas(removerItem(musicas, index))
+          }}
         />
 
         {/* HUMOR */}
