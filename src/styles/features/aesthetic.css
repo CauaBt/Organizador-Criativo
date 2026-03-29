@@ -18,12 +18,13 @@
 
 /*  CARDS  */
 
-.aesthetic-content > div {
+.aesthetic-card {
   background: #fff;
   border-radius: 16px;
   padding: 20px;
   border: 1px solid #eee;
 }
+
 
 /*  TITULOS  */
 

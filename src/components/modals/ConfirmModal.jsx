@@ -1,26 +1,31 @@
 import BaseModal from "./BaseModal"
 import Button from "../ui/Button"
 
-export default function ConfirmModal({ onConfirm, onClose, projeto }) {
+export default function ConfirmModal({
+  title = "Confirmar ação",
+  message = "Tem certeza que deseja continuar?",
+  confirmText = "Confirmar",
+  onConfirm,
+  onClose
+}) {
 
   return (
     <BaseModal onClose={onClose}>
 
       {/* TÍTULO */}
       <div className="modal-header">
-        <h3 className="modal-title">Excluir Projeto</h3>
+        <h3 className="modal-title">{title}</h3>
         <button className="modal-close" onClick={onClose}>×</button>
       </div>
 
       {/* TEXTO */}
       <p className="modal-text">
-        Você tem certeza de que deseja excluir o projeto{" "}
-        <strong>"{projeto?.titulo}"</strong>?
+        {message}
       </p>
 
-      {/* O ALERTA :o*/}
+      {/* ALERTA */}
       <div className="modal-warning">
-        ⚠️ Esta ação não pode ser desfeita. Todos os dados do projeto serão permanentemente removidos.
+        ⚠️ Esta ação não pode ser desfeita.
       </div>
 
       {/* BOTÕES */}
@@ -30,7 +35,7 @@ export default function ConfirmModal({ onConfirm, onClose, projeto }) {
         </Button>
 
         <Button variant="danger" onClick={onConfirm}>
-          Excluir Projeto
+          {confirmText}
         </Button>
       </div>
 

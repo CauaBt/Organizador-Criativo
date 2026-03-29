@@ -36,10 +36,10 @@ export default function Dashboard() {
       atualizados = projetos.map(p =>
         p.id === projeto.id
           ? {
-              ...p,
-              ...projeto,
-              atualizadoEm: new Date().toISOString()
-            }
+            ...p,
+            ...projeto,
+            atualizadoEm: new Date().toISOString()
+          }
           : p
       )
     } else {
@@ -99,7 +99,7 @@ export default function Dashboard() {
         variant="primary"
         className="create-project-btn"
         onClick={() => {
-          setEditando(null) 
+          setEditando(null)
           setMostrarModal(true)
         }}
       >
@@ -145,6 +145,8 @@ export default function Dashboard() {
       {/* MODAL DELETE */}
       {confirmDelete && (
         <ConfirmModal
+          title="Deletar projeto"
+          message={`Deseja deletar "${confirmDelete.titulo}"?`}
           projeto={confirmDelete}
           onConfirm={() => deletarProjeto(confirmDelete.id)}
           onClose={() => setConfirmDelete(null)}
