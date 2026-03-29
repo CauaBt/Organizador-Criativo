@@ -145,7 +145,7 @@ export default function Dashboard() {
       {/* MODAL DELETE */}
       {confirmDelete && (
         <ConfirmModal
-          title="Deletar projeto"
+          title="Deletar projeto?"
           message={`Deseja deletar "${confirmDelete.titulo}"?`}
           projeto={confirmDelete}
           onConfirm={() => deletarProjeto(confirmDelete.id)}

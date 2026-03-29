@@ -1,6 +1,5 @@
-/* ========================= */
+
 /* CONTAINER */
-/* ========================= */
 
 .relationships-map {
   position: relative;
@@ -22,9 +21,7 @@
 }
 
 
-/* ========================= */
 /* SVG (linhas) */
-/* ========================= */
 
 .relationships-svg {
   position: absolute;
@@ -32,9 +29,7 @@
 }
 
 
-/* ========================= */
 /* NÓ (personagem) */
-/* ========================= */
 
 .relationship-node {
   position: absolute;
@@ -63,9 +58,7 @@
 }
 
 
-/* ========================= */
 /* LEGENDA */
-/* ========================= */
 
 .relationships-legend {
   position: absolute;
@@ -91,14 +84,6 @@
   margin-bottom: 8px;
 }
 
-.relationships-legend-item {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-
-  margin-bottom: 4px;
-}
-
 .relationships-legend-color {
   width: 12px;
   height: 12px;
@@ -112,9 +97,7 @@
 }
 
 
-/* ========================= */
 /* MODAL (lista de relações) */
-/* ========================= */
 
 .relationship-item {
   padding: 10px;
@@ -162,4 +145,17 @@
 .relationship-actions button:hover {
   background: #fecaca;
 }
+
+.relationships-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  position: relative;
+  padding-right: 20px;
+}
+.relationships-legend-item:hover .remove-btn {
+  opacity: 1;
+}
+
 

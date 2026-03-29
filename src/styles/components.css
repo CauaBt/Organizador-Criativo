@@ -1,0 +1,182 @@
+
+/* BUTTONS */
+
+.btn {
+  padding: 10px 16px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+
+  font-weight: 600;
+  font-size: 14px;
+
+  transition: all 0.2s ease;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #f6c667, #f2a93b);
+  color: white;
+  box-shadow: 0 6px 16px rgba(242,169,59,0.35);
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background: #f3f3f3;
+  color: #555;
+  border: 1px solid #e5e5e5;
+}
+
+.btn-secondary:hover {
+  background: #e7e7e7;
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+  box-shadow: 0 8px 20px rgba(239,68,68,0.3);
+}
+
+.btn-danger:hover {
+  transform: translateY(-1px);
+}
+
+
+/* CARD BASE */
+
+.card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 16px;
+
+  border: 1px solid #eee;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+
+  position: relative;
+  transition: 0.2s;
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+/* CARD ACTIONS */
+
+.card-actions {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.card-actions button {
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 10px;
+  opacity: 0;
+  pointer-events: auto;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.card-actions button:hover {
+  background-color: rgba(0,0,0,0.1);
+}
+
+.card:hover .card-actions button {
+  opacity: 1;
+}
+
+.card-actions .edit {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(59, 130, 246, 0.12);
+}
+
+.card-actions .delete {
+  position: absolute;
+  bottom: 8px;
+  right: 8px;
+  background: rgba(239, 68, 68, 0.12);
+}
+
+.icon-edit {
+  color: #1565c0;
+}
+
+.icon-delete {
+  color: red;
+}
+
+
+/* TAGS */
+
+.tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tag {
+  padding: 6px 12px;
+  border-radius: 20px;
+  background: #f3f3f3;
+  font-size: 12px;
+}
+
+.tag--active {
+  background: #ffe0b2;
+  border: 1px solid #ff9800;
+}
+
+/* COLORS */
+
+.color-palette {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.color-box {
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  border: 1px solid #eee;
+}
+
+
+/* REMOVE BUTTON */
+
+.remove-btn {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+
+  width: 18px;
+  height: 18px;
+
+  border-radius: 50%;
+  border: none;
+
+  background: #ef4444;
+  color: white;
+
+  font-size: 11px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  cursor: pointer;
+
+  opacity: 0;
+  transition: 0.2s;
+}
+
+.remove-btn:hover {
+  transform: scale(1.1);
+}

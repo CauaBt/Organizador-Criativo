@@ -3,6 +3,7 @@ import BaseModal from "./BaseModal"
 import Button from "../ui/Button"
 import Input from "../ui/Input"
 import Textarea from "../ui/Textarea"
+import Form from "../ui/Form"
 
 export default function ProjectModal({ projeto, onClose, onSave }) {
 
@@ -12,7 +13,6 @@ export default function ProjectModal({ projeto, onClose, onSave }) {
     genero: ""
   })
 
-  // Preenche ao editar
   useEffect(() => {
     if (projeto) {
       setForm({
@@ -31,10 +31,6 @@ export default function ProjectModal({ projeto, onClose, onSave }) {
   }
 
   function handleSubmit() {
-    if (!form.titulo.trim()) {
-      alert("Preencha pelo menos o título do seu projeto. Você pode edita-lo depois.")
-      return}
-
     onSave({
       ...projeto,
       ...form
@@ -46,36 +42,41 @@ export default function ProjectModal({ projeto, onClose, onSave }) {
 
       <h3>{projeto ? "Editar Projeto" : "Novo Projeto"}</h3>
 
-      <Input
-        label="Nome do projeto"
-        value={form.titulo}
-        onChange={(e) => handleChange("titulo", e.target.value)}
-        placeholder="Ex: Minha história"
-      />
+      <Form onSubmit={handleSubmit}>
 
-      <Textarea
-        label="Descrição"
-        value={form.descricao}
-        onChange={(e) => handleChange("descricao", e.target.value)}
-        placeholder="Sobre o que é sua história?"
-      />
+        <Input
+          label="Nome do projeto"
+          value={form.titulo}
+          onChange={(e) => handleChange("titulo", e.target.value)}
+          placeholder="Ex: Minha história"
+          required
+        />
 
-      <Input
-        label="Gênero"
-        value={form.genero}
-        onChange={(e) => handleChange("genero", e.target.value)}
-        placeholder="Fantasia, romance..."
-      />
+        <Textarea
+          label="Descrição"
+          value={form.descricao}
+          onChange={(e) => handleChange("descricao", e.target.value)}
+          placeholder="Sobre o que é sua história?"
+        />
 
-      <div className="modal-actions">
-        <Button variant="secondary" onClick={onClose}>
-          Cancelar
-        </Button>
+        <Input
+          label="Gênero"
+          value={form.genero}
+          onChange={(e) => handleChange("genero", e.target.value)}
+          placeholder="Fantasia, romance..."
+        />
 
-        <Button variant="primary" onClick={handleSubmit}>
-          Salvar
-        </Button>
-      </div>
+        <div className="modal-actions">
+          <Button variant="secondary" onClick={onClose}>
+            Cancelar
+          </Button>
+
+          <Button variant="primary" type="submit">
+            Salvar
+          </Button>
+        </div>
+
+      </Form>
 
     </BaseModal>
   )

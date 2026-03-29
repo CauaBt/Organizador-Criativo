@@ -5,18 +5,10 @@ import EmptyState from "../../components/ui/EmptyState"
 import { FiClock } from "react-icons/fi"
 import { useEffect } from "react"
 
-import {
-  DndContext,
-  closestCenter
-} from "@dnd-kit/core"
+import SortableItem from "./components/SortableItem"
 
-import {
-  SortableContext,
-  verticalListSortingStrategy,
-  arrayMove,
-  useSortable
-} from "@dnd-kit/sortable"
-
+import { DndContext, closestCenter } from "@dnd-kit/core"
+import { SortableContext, verticalListSortingStrategy, arrayMove, useSortable } from "@dnd-kit/sortable"
 import { CSS } from "@dnd-kit/utilities"
 
 
@@ -163,9 +155,10 @@ export default function Timeline({ projeto, setProjeto }) {
                   key={c.id}
                   capitulo={c}
                   index={index}
+                  total={capitulos.length}
+                  onMove={moverPara}
                 />
               ))}
-
             </div>
           </SortableContext>
         </DndContext>

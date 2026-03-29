@@ -1,12 +1,6 @@
 import { useState, useEffect } from "react"
 import { atualizarEstetica } from "./aestheticStore"
-
-import {
-  adicionarItem,
-  removerItem,
-  toggleItem
-} from "./aestheticLogic"
-
+import { adicionarItem, removerItem, toggleItem} from "./aestheticLogic"
 
 import ColorSection from "./components/ColorSection"
 import MusicSection from "./components/MusicSection"

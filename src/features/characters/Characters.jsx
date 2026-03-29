@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { salvarPersonagens } from "./characterStore"
+import { salvarOuEditarPersonagem, deletarPersonagem } from "./characterLogic"
 
 import Button from "../../components/ui/Button"
 import EmptyState from "../../components/ui/EmptyState"
@@ -10,12 +11,6 @@ import CharacterFormModal from "./components/CharacterFormModal"
 
 
 import { FiUser } from "react-icons/fi"
-
-import {
-  salvarOuEditarPersonagem,
-  deletarPersonagem
-} from "./characterLogic"
-
 
 export default function Characters({ projeto, setProjeto }) {
 
@@ -153,7 +148,7 @@ export default function Characters({ projeto, setProjeto }) {
       {/* CONFIRM DELETE */}
       {confirmDelete && (
         <ConfirmModal
-          title="Deletar personagem"
+          title="Deletar personagem?"
           message={`Deseja deletar "${confirmDelete.nome}"?`}
           confirmText="Deletar"
           onConfirm={deletarConfirmado}

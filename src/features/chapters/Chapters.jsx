@@ -1,12 +1,16 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { salvarCapitulos } from "./chaptersStore"
+import { salvarOuEditarCapitulo, deletarCapitulo, atualizarTexto } from "./chapterLogic"
 
 import Button from "../../components/ui/Button"
 import EmptyState from "../../components/ui/EmptyState"
-import BaseModal from "../../components/modals/BaseModal"
+import ConfirmModal from "../../components/modals/ConfirmModal"
 
-import { FiEdit2, FiTrash2, FiBookOpen } from "react-icons/fi"
-import { useEffect } from "react"
+import ChapterCard from "./components/ChapterCard"
+import ChapterEditor from "./components/ChapterEditor"
+import ChapterFormModal from "./components/ChapterFormModal"
+
+import { FiBookOpen } from "react-icons/fi"
 
 export default function Chapters({ projeto, setProjeto }) {
 
@@ -39,25 +43,12 @@ export default function Chapters({ projeto, setProjeto }) {
   }
 
   function salvar() {
-    if (!titulo.trim()) return
 
-    let atualizados
-
-    if (editando) {
-      atualizados = capitulos.map(c =>
-        c.id === editando.id
-          ? { ...c, titulo }
-          : c
-      )
-    } else {
-      const novo = {
-        id: Date.now(),
-        titulo,
-        texto: ""
-      }
-
-      atualizados = [...capitulos, novo]
-    }
+    const atualizados = salvarOuEditarCapitulo({
+      capitulos,
+      editando,
+      titulo
+    })
 
     setCapitulos(atualizados)
 
@@ -67,15 +58,13 @@ export default function Chapters({ projeto, setProjeto }) {
     })
 
     salvarCapitulos(projeto.id, atualizados)
-
-
 
     setMostrarModal(false)
     setEditando(null)
   }
 
   function deletarConfirmado() {
-    const atualizados = capitulos.filter(c => c.id !== confirmDelete.id)
+    const atualizados = deletarCapitulo(capitulos, confirmDelete.id)
 
     setCapitulos(atualizados)
 
@@ -85,12 +74,11 @@ export default function Chapters({ projeto, setProjeto }) {
     })
 
     salvarCapitulos(projeto.id, atualizados)
+
     setConfirmDelete(null)
   }
 
-  // =========================
   // LISTA
-  // =========================
 
   if (!capituloAtivo) {
     return (
@@ -119,118 +107,39 @@ export default function Chapters({ projeto, setProjeto }) {
           <div className="chapters-grid">
 
             {capitulos.map((c, index) => (
-              <div
+              <ChapterCard
                 key={c.id}
-                className="chapter-card"
-                onClick={() => setCapituloAtivo(c)}
-              >
-
-                {/* HEADER */}
-                <div className="chapter-header">
-                  <span className="chapter-index">
-                    Capítulo {index + 1}
-                  </span>
-
-                  <h3>{c.titulo || "Sem título"}</h3>
-                </div>
-
-                {/* DESCRIÇÃO */}
-                <p className="chapter-preview">
-                  {c.texto
-                    ? c.texto.length > 100
-                      ? c.texto.slice(0, 100) + "..."
-                      : c.texto
-                    : "Sem conteúdo ainda"}
-
-                </p>
-
-                {/* FOOTER */}
-                <div className="chapter-footer">
-                  <span>
-                    📄 {c.texto?.length || 0} caracteres
-                  </span>
-                </div>
-
-                {/* AÇÕES */}
-                <div className="card-actions">
-
-                  <button
-                    className="edit"
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      abrirEditar(c)
-                    }}
-                  >
-                    <FiEdit2 className="icon-edit" />
-                  </button>
-
-                  <button
-                    className="delete"
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      setConfirmDelete(c)
-                    }}
-                  >
-                    <FiTrash2 className="icon-delete" />
-                  </button>
-
-                </div>
-
-              </div>
+                capitulo={c}
+                index={index}
+                onOpen={setCapituloAtivo}
+                onEdit={abrirEditar}
+                onDelete={setConfirmDelete}
+              />
             ))}
-
 
           </div>
         )}
 
         {/* MODAL */}
         {mostrarModal && (
-          <BaseModal onClose={() => setMostrarModal(false)}>
-
-            <div className="modal-header">
-              <h3 className="modal-title">
-                {editando ? "Editar Capítulo" : "Novo Capítulo"}
-              </h3>
-            </div>
-
-            <input
-              placeholder="Título do capítulo"
-              value={titulo}
-              onChange={(e) => setTitulo(e.target.value)}
-            />
-
-            <div className="modal-actions">
-              <Button variant="secondary" onClick={() => setMostrarModal(false)}>
-                Cancelar
-              </Button>
-
-              <Button variant="primary" onClick={salvar}>
-                Salvar
-              </Button>
-            </div>
-
-          </BaseModal>
+          <ChapterFormModal
+            onClose={() => setMostrarModal(false)}
+            onSave={salvar}
+            editando={editando}
+            titulo={titulo}
+            setTitulo={setTitulo}
+          />
         )}
 
         {/* DELETE */}
         {confirmDelete && (
-          <BaseModal onClose={() => setConfirmDelete(null)}>
-
-            <p className="modal-text">
-              Deseja deletar <strong>{confirmDelete.titulo}</strong>?
-            </p>
-
-            <div className="modal-actions">
-              <Button variant="danger" onClick={deletarConfirmado}>
-                Deletar
-              </Button>
-
-              <Button variant="secondary" onClick={() => setConfirmDelete(null)}>
-                Cancelar
-              </Button>
-            </div>
-
-          </BaseModal>
+          <ConfirmModal
+            title="Deletar capítulo?"
+            message={`Deseja deletar "${confirmDelete.titulo}"?`}
+            confirmText="Deletar"
+            onConfirm={deletarConfirmado}
+            onClose={() => setConfirmDelete(null)}
+          />
         )}
 
       </div>
@@ -240,44 +149,25 @@ export default function Chapters({ projeto, setProjeto }) {
   // EDITOR
 
   return (
-    <div className="chapter-editor">
+    <ChapterEditor
+      capitulo={capituloAtivo}
+      onBack={() => setCapituloAtivo(null)}
+      onChange={(novoTexto) => {
 
-      <Button
-        variant="secondary"
-        onClick={() => setCapituloAtivo(null)}
-      >
-        ← Voltar
-      </Button>
+        const atualizados = atualizarTexto(
+          capitulos,
+          capituloAtivo.id,
+          novoTexto
+        )
 
-      <h2>{capituloAtivo.titulo}</h2>
+        setCapitulos(atualizados)
+        salvarCapitulos(projeto.id, atualizados)
 
-      <textarea
-        className="chapter-textarea"
-        value={capituloAtivo.texto || ""}
-        onChange={(e) => {
-
-          const novoTexto = e.target.value
-
-          const atualizados = capitulos.map(c =>
-            c.id === capituloAtivo.id
-              ? { ...c, texto: novoTexto }
-              : c
-          )
-
-          setCapitulos(atualizados)
-          salvarCapitulos(projeto.id, atualizados)
-
-          const atualizado = {
-            ...capituloAtivo,
-            texto: novoTexto
-          }
-
-          setCapituloAtivo(atualizado)
-
-        }}
-        placeholder="Escreva seu capítulo aqui..."
-      />
-
-    </div>
+        setCapituloAtivo({
+          ...capituloAtivo,
+          texto: novoTexto
+        })
+      }}
+    />
   )
 }
