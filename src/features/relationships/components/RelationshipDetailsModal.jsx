@@ -44,9 +44,9 @@ export default function RelationshipDetailsModal({
               <div className="color-controls">
 
                 {/* BOTÃO DE COR */}
-                <div className="color-add">
+                <div className="color-add-relationship">
                   <div
-                    className="color-preview"
+                    className="color-preview-relationship"
                     style={{ background: tag?.cor }}
                   />
 

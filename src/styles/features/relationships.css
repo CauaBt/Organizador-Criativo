@@ -169,7 +169,7 @@
 
 /* seletor de cor */
 
-.color-add {
+.color-add-relationship {
   position: relative;
   display: flex;
   align-items: center;
@@ -199,7 +199,7 @@
 
 /* preview da cor */
 
-.color-preview {
+.color-preview-relationship {
   width: 18px;
   height: 18px;
   border-radius: 6px;
