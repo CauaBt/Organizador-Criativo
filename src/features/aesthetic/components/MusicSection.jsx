@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 
 import Input from "../../../components/ui/Input"
 import { FiSearch, FiPlay, FiPause } from "react-icons/fi"
@@ -14,7 +14,7 @@ export default function MusicSection({
     const [resultados, setResultados] = useState([])
     const [carregando, setCarregando] = useState(false)
 
-    const [audio, setAudio] = useState(null)
+    const audioRef = useRef(null)
     const [tocandoId, setTocandoId] = useState(null)
 
     useEffect(() => {
@@ -23,19 +23,18 @@ export default function MusicSection({
 
     useEffect(() => {
         return () => {
-            if (audio) {
-                audio.pause()
-                setTocandoId(null)
+            if (audioRef.current) {
+                audioRef.current.pause()
             }
         }
-    }, [audio])
-
+    }, [])
 
     async function carregarMusicasIniciais() {
         try {
-            // pausa áudio ao trocar lista
-            if (audio) {
-                audio.pause()
+            if (audioRef.current) {
+                audioRef.current.pause()
+                audioRef.current.currentTime = 0
+                audioRef.current = null
                 setTocandoId(null)
             }
 
@@ -52,9 +51,10 @@ export default function MusicSection({
     async function buscarMusicas(valor) {
         setBusca(valor)
 
-        // pausa ao buscar
-        if (audio) {
-            audio.pause()
+        if (audioRef.current) {
+            audioRef.current.pause()
+            audioRef.current.currentTime = 0
+            audioRef.current = null
             setTocandoId(null)
         }
 
@@ -91,29 +91,46 @@ export default function MusicSection({
             return
         }
 
+        const audioAtual = audioRef.current
+
         // mesma música → pausa
-        if (tocandoId === musica.id) {
-            if (audio) audio.pause()
+        if (tocandoId === musica.id && audioAtual) {
+            audioAtual.pause()
+            audioAtual.src = ""
+            audioRef.current = null
             setTocandoId(null)
             return
         }
 
-        // para anterior
-        if (audio) {
-            audio.pause()
+        // limpa COMPLETAMENTE o anterior
+        if (audioAtual) {
+            audioAtual.pause()
+            audioAtual.src = ""
+            audioRef.current = null
         }
 
-        const novoAudio = new Audio(musica.preview)
+        const novoAudio = new Audio()
 
-        novoAudio.play().catch(() => {
-            console.warn("Erro ao tocar preview")
-        })
+        novoAudio.src = musica.preview
+        novoAudio.load()
 
-        setAudio(novoAudio)
-        setTocandoId(musica.id)
+        novoAudio.play()
+            .then(() => {
+                audioRef.current = novoAudio
+                setTocandoId(musica.id)
+            })
+            .catch(() => {
+                console.warn("Erro ao tocar preview")
+            })
 
         novoAudio.onended = () => {
             setTocandoId(null)
+            audioRef.current = null
+        }
+
+        novoAudio.onerror = () => {
+            setTocandoId(null)
+            audioRef.current = null
         }
     }
 
@@ -121,7 +138,6 @@ export default function MusicSection({
         <div className="aesthetic-card">
             <h3>Músicas</h3>
 
-            {/* INPUT */}
             <div className="input-icon">
                 <FiSearch className="icon" />
 
@@ -132,7 +148,6 @@ export default function MusicSection({
                 />
             </div>
 
-            {/* LISTA PRINCIPAL */}
             <div className="music-list">
                 {carregando && <p>Carregando...</p>}
 
@@ -167,7 +182,6 @@ export default function MusicSection({
                     })}
             </div>
 
-            {/* LISTA SELECIONADAS */}
             {musicas.length > 0 && (
                 <div className="selected-music-list">
                     <h4>Músicas selecionadas</h4>
@@ -176,14 +190,9 @@ export default function MusicSection({
                         <div
                             key={m.id}
                             className="music-item selected"
+                            onClick={() => handleSelect(m)}
                         >
-                            <div
-                                className="music-info"
-                                onClick={() => {
-                                    const index = musicas.findIndex((x) => x.id === m.id)
-                                    onRemove(index)
-                                }}
-                            >
+                            <div className="music-info">
                                 <span className="music-title">{m.title}</span>
                                 <span className="music-artist">{m.artist?.name || "Desconhecido"}</span>
                             </div>
