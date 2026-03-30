@@ -7,7 +7,11 @@ export function salvarPersonagens(projetoId, personagens) {
       return {
         ...p,
         personagens,
-        atualizadoEm: new Date().toISOString()
+        atualizadoEm: new Date().toISOString(),
+        ultimaEdicaoPorAba: {
+            ...p.ultimaEdicaoPorAba,
+            characters: new Date().toISOString()
+        }        
       }
     }
     return p

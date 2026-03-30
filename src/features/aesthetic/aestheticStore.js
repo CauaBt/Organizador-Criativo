@@ -10,7 +10,11 @@ export function atualizarEstetica(projetoId, novaEstetica) {
         ...p.estetica,
         ...novaEstetica
       },
-      atualizadoEm: new Date().toISOString()
+      atualizadoEm: new Date().toISOString(),
+      ultimaEdicaoPorAba: {
+          ...p.ultimaEdicaoPorAba,
+          aesthetic: new Date().toISOString()
+      }
     }
   })
 

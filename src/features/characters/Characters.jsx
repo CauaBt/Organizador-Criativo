@@ -113,7 +113,7 @@ export default function Characters({ projeto, setProjeto }) {
           ? "Seu elenco já está bem desenvolvido"
           : "Você tem um elenco rico e completo"
         }
-        
+        lastEdited={projeto?.ultimaEdicaoPorAba?.characters}
       />
 
       <Button

@@ -145,6 +145,7 @@ export default function Relationships({ projeto, setProjeto, setTab }) {
             ? "As conexões já estão bem definidas"
             : "Rede de relacionamentos bem desenvolvida"
         }
+        lastEdited={projeto?.ultimaEdicaoPorAba?.relationships}
       />
 
       <div style={{ display: "flex", gap: "10px", marginBottom: "10px" }}>

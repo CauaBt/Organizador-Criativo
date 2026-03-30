@@ -1,4 +1,6 @@
 import ProgressBar from "./ProgressBar"
+import { tempoRelativo } from "../../utils/tempo"
+import { FiClock } from "react-icons/fi"
 
 export default function SectionStatus({
   color = "green",
@@ -6,7 +8,8 @@ export default function SectionStatus({
   title,
   subtitle,
   progress,
-  showProgress = false
+  showProgress = false,
+  lastEdited
 }) {
   return (
     <div className={`section-status section-status--${color}`}>
@@ -29,6 +32,15 @@ export default function SectionStatus({
 
         {subtitle && (
           <p className="section-status__subtitle">{subtitle}</p>
+        )}
+
+        {lastEdited && (
+          <div className="section-status__last-edited">
+            <FiClock className="section-status-last-edited-icon" />
+            <span>
+              Última alteração: {tempoRelativo(lastEdited)}
+            </span>
+          </div>
         )}
 
       </div>

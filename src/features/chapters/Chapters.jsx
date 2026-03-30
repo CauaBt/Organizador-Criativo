@@ -100,6 +100,7 @@ export default function Chapters({ projeto, setProjeto }) {
               ? "Sua história já está bem estruturada"
               : "Estrutura narrativa bem desenvolvida"
           }
+          lastEdited={projeto?.ultimaEdicaoPorAba?.chapters}
         />
 
         <Button

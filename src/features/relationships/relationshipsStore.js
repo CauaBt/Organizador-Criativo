@@ -7,8 +7,12 @@ export function salvarRelacoes(projetoId, relacoes, tags) {
       return {
         ...p,
         relacoes,
-        tags, // 
-        atualizadoEm: new Date().toISOString()
+        tags, 
+        atualizadoEm: new Date().toISOString(),
+        ultimaEdicaoPorAba: {
+            ...p.ultimaEdicaoPorAba,
+            relationships: new Date().toISOString()
+        }        
       }
     }
     return p

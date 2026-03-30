@@ -115,7 +115,7 @@
   color: #ec4899;
 }
 
-/* AMARELO - capítulos, se quiser depois */
+/* AMARELO - capítulos */
 .section-status--yellow {
   background: #fff8df;
   border-color: #f59e0b;
@@ -123,4 +123,16 @@
 }
 .section-status--yellow .section-status__icon {
   color: #f59e0b;
+}
+
+.section-status__last-edited {
+  font-size: 13px;
+  opacity: 0.85;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.section-status-last-edited-icon {
+  font-size: 13px;
 }

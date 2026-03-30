@@ -117,6 +117,7 @@
             }
             progress={progresso.estetica || 0}
             showProgress
+            lastEdited={projeto?.ultimaEdicaoPorAba?.aesthetic}
           />
         </div>
 

@@ -7,7 +7,11 @@ export function salvarCapitulos(projetoId, capitulos) {
       return {
         ...p,
         capitulos,
-        atualizadoEm: new Date().toISOString()
+        atualizadoEm: new Date().toISOString(),
+        ultimaEdicaoPorAba: {
+            ...p.ultimaEdicaoPorAba,
+            chapters: new Date().toISOString()
+        }
       }
     }
     return p
