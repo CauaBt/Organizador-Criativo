@@ -1,35 +1,50 @@
 import { useState, useEffect } from "react"
 import { salvarCapitulos } from "./chaptersStore"
 import { salvarOuEditarCapitulo, deletarCapitulo, atualizarTexto } from "./chapterLogic"
+import { getTip } from "../../utils/tips"
+
 
 import Button from "../../components/ui/Button"
 import EmptyState from "../../components/ui/EmptyState"
 import SectionStatus from "../../components/ui/SectionStatus"
 import ConfirmModal from "../../components/modals/ConfirmModal"
+import TipBox from "../../components/ui/TipBox"
+
 
 import ChapterCard from "./components/ChapterCard"
 import ChapterEditor from "./components/ChapterEditor"
 import ChapterFormModal from "./components/ChapterFormModal"
 
+
 import { FiBookOpen, FiFileText } from "react-icons/fi"
+
 
 export default function Chapters({ projeto, setProjeto }) {
 
+
   const [capitulos, setCapitulos] = useState(projeto.capitulos || [])
   const [capituloAtivo, setCapituloAtivo] = useState(null)
+
 
   const [mostrarModal, setMostrarModal] = useState(false)
   const [editando, setEditando] = useState(null)
   const [confirmDelete, setConfirmDelete] = useState(null)
 
+
   const [titulo, setTitulo] = useState("")
+
 
   useEffect(() => {
     setCapitulos(projeto.capitulos || [])
   }, [projeto.capitulos])
 
 
+  // TIP
+  const tip = getTip("chapters", projeto)
+
+
   // CRIAR / EDITAR
+
 
   function abrirCriar() {
     setTitulo("")
@@ -37,55 +52,73 @@ export default function Chapters({ projeto, setProjeto }) {
     setMostrarModal(true)
   }
 
+
   function abrirEditar(c) {
     setTitulo(c.titulo)
     setEditando(c)
     setMostrarModal(true)
   }
 
-  function salvar() {
 
+  function salvar() {
     const atualizados = salvarOuEditarCapitulo({
       capitulos,
       editando,
       titulo
     })
 
+
     setCapitulos(atualizados)
+
 
     setProjeto({
       ...projeto,
       capitulos: atualizados
     })
 
+
     salvarCapitulos(projeto.id, atualizados)
+
 
     setMostrarModal(false)
     setEditando(null)
   }
 
+
   function deletarConfirmado() {
     const atualizados = deletarCapitulo(capitulos, confirmDelete.id)
 
+
     setCapitulos(atualizados)
+
 
     setProjeto({
       ...projeto,
       capitulos: atualizados
     })
 
+
     salvarCapitulos(projeto.id, atualizados)
+
 
     setConfirmDelete(null)
   }
 
+
   // LISTA
+
 
   if (!capituloAtivo) {
     return (
       <div>
 
+
         <h2>Capítulos</h2>
+
+
+        {/* TIP */}
+        <TipBox text={tip} />
+
 
         <SectionStatus
           color="yellow"
@@ -103,6 +136,7 @@ export default function Chapters({ projeto, setProjeto }) {
           lastEdited={projeto?.ultimaEdicaoPorAba?.chapters}
         />
 
+
         <Button
           variant="primary"
           className="create-chapter-btn"
@@ -110,6 +144,7 @@ export default function Chapters({ projeto, setProjeto }) {
         >
           + Criar Capítulo
         </Button>
+
 
         {capitulos.length === 0 ? (
           <EmptyState
@@ -123,6 +158,7 @@ export default function Chapters({ projeto, setProjeto }) {
         ) : (
           <div className="chapters-grid">
 
+
             {capitulos.map((c, index) => (
               <ChapterCard
                 key={c.id}
@@ -134,10 +170,11 @@ export default function Chapters({ projeto, setProjeto }) {
               />
             ))}
 
+
           </div>
         )}
 
-        {/* MODAL */}
+
         {mostrarModal && (
           <ChapterFormModal
             onClose={() => setMostrarModal(false)}
@@ -148,7 +185,7 @@ export default function Chapters({ projeto, setProjeto }) {
           />
         )}
 
-        {/* DELETE */}
+
         {confirmDelete && (
           <ConfirmModal
             title="Deletar capítulo?"
@@ -159,11 +196,14 @@ export default function Chapters({ projeto, setProjeto }) {
           />
         )}
 
+
       </div>
     )
   }
 
+
   // EDITOR
+
 
   return (
     <ChapterEditor
@@ -171,14 +211,17 @@ export default function Chapters({ projeto, setProjeto }) {
       onBack={() => setCapituloAtivo(null)}
       onChange={(novoTexto) => {
 
+
         const atualizados = atualizarTexto(
           capitulos,
           capituloAtivo.id,
           novoTexto
         )
 
+
         setCapitulos(atualizados)
         salvarCapitulos(projeto.id, atualizados)
+
 
         setCapituloAtivo({
           ...capituloAtivo,

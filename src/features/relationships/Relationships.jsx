@@ -1,12 +1,13 @@
 import { useState } from "react"
 import { salvarRelacoes } from "./relationshipsStore"
 import { criarRelacao, removerRelacao } from "./relationshipsLogic"
-
+import { getTip } from "../../utils/tips"
 
 import Button from "../../components/ui/Button"
 import EmptyState from "../../components/ui/EmptyState"
 import SectionStatus from "../../components/ui/SectionStatus"
 import ConfirmModal from "../../components/modals/ConfirmModal"
+import TipBox from "../../components/ui/TipBox"
 
 import RelationshipFormModal from "./components/RelationshipFormModal"
 import RelationshipLegend from "./components/RelationshipLegend"
@@ -29,8 +30,10 @@ export default function Relationships({ projeto, setProjeto, setTab }) {
   const [p2, setP2] = useState("")
   const [tipo, setTipo] = useState("")
 
-  // CRIAR RELAÇÃO
+  // TIP
+  const tip = getTip("relationships", projeto)
 
+  // CRIAR RELAÇÃO
   function adicionarRelacao() {
     if (!p1 || !p2 || !tipo) return
 
@@ -63,16 +66,11 @@ export default function Relationships({ projeto, setProjeto, setTab }) {
     setP2("")
   }
 
-  // REMOVER TIPO
-
   function removerTipo(tipoNome) {
-
-    // remove todas as relações desse tipo
     const relacoesAtualizadas = relacoes.filter(
       r => r.tipo !== tipoNome
     )
 
-    // remove a tag da legenda
     const tagsAtualizadas = tags.filter(
       t => t.nome !== tipoNome
     )
@@ -88,8 +86,6 @@ export default function Relationships({ projeto, setProjeto, setTab }) {
     salvarRelacoes(projeto.id, relacoesAtualizadas, tagsAtualizadas)
   }
 
-  // RESET
-
   function resetarRelacoes() {
     setRelacoes([])
 
@@ -101,8 +97,6 @@ export default function Relationships({ projeto, setProjeto, setTab }) {
 
     salvarRelacoes(projeto.id, [], [])
   }
-
-  // POSIÇÕES
 
   const tamanho = 450
   const centro = tamanho / 2
@@ -118,19 +112,18 @@ export default function Relationships({ projeto, setProjeto, setTab }) {
     }
   })
 
-  // RELAÇÕES DO PERSONAGEM
-
   const relacoesDoPersonagem = relacoes.filter(r =>
     r.p1 === personagemSelecionado?.id ||
     r.p2 === personagemSelecionado?.id
   )
 
-  // RENDER
-
   return (
     <div>
 
       <h2>Relacionamentos</h2>
+
+      {/* TIP */}
+      <TipBox text={tip} />
 
       <SectionStatus
         color="pink"
@@ -170,21 +163,17 @@ export default function Relationships({ projeto, setProjeto, setTab }) {
 
         <div className="relationships-map">
 
-          {/* LEGENDA */}
           <RelationshipLegend
             tags={tags}
             onRemoveTipo={removerTipo}
           />
 
-          {/* LINHAS */}
           <RelationshipGraph
             relacoes={relacoes}
             posicoes={posicoes}
             tags={tags}
           />
 
-
-          {/* PERSONAGENS */}
           {posicoes.map(p => (
             <div
               key={p.id}
@@ -198,8 +187,6 @@ export default function Relationships({ projeto, setProjeto, setTab }) {
 
         </div>
       )}
-
-      {/* MODAL PERSONAGEM */}
 
       {personagemSelecionado && (
         <RelationshipDetailsModal
@@ -241,8 +228,6 @@ export default function Relationships({ projeto, setProjeto, setTab }) {
         />
       )}
 
-      {/* MODAL CRIAR */}
-
       {mostrarModal && (
         <RelationshipFormModal
           personagens={personagens}
@@ -258,8 +243,6 @@ export default function Relationships({ projeto, setProjeto, setTab }) {
         />
       )}
 
-
-      {/* CONFIRM RESET */}
       {confirmReset && (
         <ConfirmModal
           title="Resetar relações?"

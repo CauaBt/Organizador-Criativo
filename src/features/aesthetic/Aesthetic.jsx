@@ -1,42 +1,45 @@
-  import { useState, useEffect } from "react"
-  import { atualizarEstetica } from "./aestheticStore"
-  import { adicionarItem, removerItem, toggleItem } from "./aestheticLogic"
-  import { FiFeather } from "react-icons/fi"
-  import { calcularProgresso } from "../../utils/progresso"
+import { useState, useEffect } from "react"
+import { atualizarEstetica } from "./aestheticStore"
+import { adicionarItem, removerItem, toggleItem } from "./aestheticLogic"
+import { getTip } from "../../utils/tips"
 
-  import ColorSection from "./components/ColorSection"
-  import MusicSection from "./components/MusicSection"
-  import HumorSection from "./components/HumorSection"
-  import TagSection from "./components/TagSection"
-  import AestheticSidebar from "./components/AestheticSidebar"
-  import SectionStatus from "../../components/ui/SectionStatus"
+import { FiFeather } from "react-icons/fi"
+import { calcularProgresso } from "../../utils/progresso"
 
-  export default function Aesthetic({ projeto, setProjeto }) {
+import TipBox from "../../components/ui/TipBox"
+import SectionStatus from "../../components/ui/SectionStatus"
 
-    const [cores, setCores] = useState(projeto.estetica?.cores || [])
-    const [novaCor, setNovaCor] = useState("#000000")
+import ColorSection from "./components/ColorSection"
+import MusicSection from "./components/MusicSection"
+import HumorSection from "./components/HumorSection"
+import TagSection from "./components/TagSection"
+import AestheticSidebar from "./components/AestheticSidebar"
 
-    const [musicas, setMusicas] = useState(projeto.estetica?.musicas || [])
+export default function Aesthetic({ projeto, setProjeto }) {
 
-    const [humores, setHumores] = useState(projeto.estetica?.humores || [])
-    const [novoHumor, setNovoHumor] = useState("")
+  const [cores, setCores] = useState(projeto.estetica?.cores || [])
+  const [novaCor, setNovaCor] = useState("#000000")
 
-    const [tags, setTags] = useState(projeto.estetica?.tags || [])
-    const [novaTag, setNovaTag] = useState("")
+  const [musicas, setMusicas] = useState(projeto.estetica?.musicas || [])
 
+  const [humores, setHumores] = useState(projeto.estetica?.humores || [])
+  const [novoHumor, setNovoHumor] = useState("")
 
-    const opcoesHumor = [
-      "Sereno",
-      "Melancólico",
-      "Acolhedor",
-      "Misterioso",
-      "Intenso",
-      "Alegre",
-      "Sombrio",
-      "Nostálgico"
-    ]
+  const [tags, setTags] = useState(projeto.estetica?.tags || [])
+  const [novaTag, setNovaTag] = useState("")
 
-    useEffect(() => {
+  const opcoesHumor = [
+    "Sereno",
+    "Melancólico",
+    "Acolhedor",
+    "Misterioso",
+    "Intenso",
+    "Alegre",
+    "Sombrio",
+    "Nostálgico"
+  ]
+
+  useEffect(() => {
     const novaEstetica = {
       cores,
       musicas,
@@ -50,119 +53,122 @@
       setProjeto((prev) => ({
         ...prev,
         estetica: novaEstetica
-        }))
-      }
-    }, [cores, musicas, humores, tags, projeto.id, setProjeto])
-
-    // CORES
-
-    function adicionarCor() {
-      setCores(adicionarItem(cores, novaCor))
+      }))
     }
+  }, [cores, musicas, humores, tags, projeto.id, setProjeto])
 
-    function removerCor(index) {
-      setCores(removerItem(cores, index))
-    }
+  // CORES
+  function adicionarCor() {
+    setCores(adicionarItem(cores, novaCor))
+  }
 
-    // HUMOR
+  function removerCor(index) {
+    setCores(removerItem(cores, index))
+  }
 
-    function toggleHumor(h) {
-      setHumores(toggleItem(humores, h))
-    }
+  // HUMOR
+  function toggleHumor(h) {
+    setHumores(toggleItem(humores, h))
+  }
 
-    function adicionarHumorCustom() {
-      setHumores(adicionarItem(humores, novoHumor))
-      setNovoHumor("")
-    }
+  function adicionarHumorCustom() {
+    setHumores(adicionarItem(humores, novoHumor))
+    setNovoHumor("")
+  }
 
-    function removerHumor(index) {
-      setHumores(removerItem(humores, index))
-    }
+  function removerHumor(index) {
+    setHumores(removerItem(humores, index))
+  }
 
-    // TAGS
+  // TAGS
+  function adicionarTag() {
+    setTags(adicionarItem(tags, novaTag))
+    setNovaTag("")
+  }
 
-    function adicionarTag() {
-      setTags(adicionarItem(tags, novaTag))
-      setNovaTag("")
-    }
+  function removerTag(index) {
+    setTags(removerItem(tags, index))
+  }
 
-    function removerTag(index) {
-      setTags(removerItem(tags, index))
-    }
-
-    const progresso = calcularProgresso({
+  const progresso = calcularProgresso({
     ...projeto,
     estetica: { cores, musicas, humores, tags }
-    })
+  })
 
-    // RENDER
+  // TIP
+  const tip = getTip("aesthetic", projeto)
 
-    return (
-      <div className="aesthetic-page">
-        <div className="aesthetic-header">
-          <h2>Estética</h2>
+  return (
+    <div className="aesthetic-page">
 
-          <SectionStatus
-            color="green"
-            icon={FiFeather}
-            title="Progresso da Estética"
-            subtitle={
-              progresso.estetica === 0
+      <div className="aesthetic-header">
+        <h2>Estética</h2>
+
+        {/* TIP */}
+        <TipBox text={tip} />
+
+        <SectionStatus
+          color="green"
+          icon={FiFeather}
+          title="Progresso da Estética"
+          subtitle={
+            progresso.estetica === 0
               ? "Comece definindo a estética do seu projeto."
               : progresso.estetica < 40
               ? "Sua estética está começando a tomar forma."
               : progresso.estetica < 80
               ? "Sua estética já está bem desenvolvida."
               : "Estética completa! Ótimo trabalho."
-            }
-            progress={progresso.estetica || 0}
-            showProgress
-            lastEdited={projeto?.ultimaEdicaoPorAba?.aesthetic}
-          />
-        </div>
-
-        <div className="aesthetic-main">
-          <div className="aesthetic-content">
-            <ColorSection
-              cores={cores}
-              novaCor={novaCor}
-              setNovaCor={setNovaCor}
-              onAdd={adicionarCor}
-              onRemove={removerCor}
-            />
-
-            <MusicSection
-              musicas={musicas}
-              onAdd={(musica) => setMusicas(adicionarItem(musicas, musica))}
-              onRemove={(index) => setMusicas(removerItem(musicas, index))}
-            />
-
-            <HumorSection
-              opcoesHumor={opcoesHumor}
-              humores={humores}
-              novoHumor={novoHumor}
-              setNovoHumor={setNovoHumor}
-              onToggle={toggleHumor}
-              onAddCustom={adicionarHumorCustom}
-              onRemove={removerHumor}
-            />
-
-            <TagSection
-              tags={tags}
-              novaTag={novaTag}
-              setNovaTag={setNovaTag}
-              onAdd={adicionarTag}
-              onRemove={removerTag}
-            />
-          </div>
-
-          <AestheticSidebar
-            cores={cores}
-            humores={humores}
-            musicas={musicas}
-            tags={tags}
-          />
-        </div>
+          }
+          progress={progresso.estetica || 0}
+          showProgress
+          lastEdited={projeto?.ultimaEdicaoPorAba?.aesthetic}
+        />
       </div>
-    )
-  }
+
+      <div className="aesthetic-main">
+
+        <div className="aesthetic-content">
+
+          <ColorSection
+            cores={cores}
+            novaCor={novaCor}
+            setNovaCor={setNovaCor}
+            onAdd={adicionarCor}
+            onRemove={removerCor}
+          />
+
+          <MusicSection
+            musicas={musicas}
+            onAdd={(musica) => setMusicas(adicionarItem(musicas, musica))}
+            onRemove={(index) => setMusicas(removerItem(musicas, index))}
+          />
+
+          <HumorSection
+            opcoesHumor={opcoesHumor}
+            humores={humores}
+            novoHumor={novoHumor}
+            setNovoHumor={setNovoHumor}
+            onToggle={toggleHumor}
+            onAddCustom={adicionarHumorCustom}
+            onRemove={removerHumor}
+          />
+          <TagSection
+            tags={tags}
+            novaTag={novaTag}
+            setNovaTag={setNovaTag}
+            onAdd={adicionarTag}
+            onRemove={removerTag}
+          />
+        </div>
+        <AestheticSidebar
+          cores={cores}
+          humores={humores}
+          musicas={musicas}
+          tags={tags}
+        />
+
+      </div>
+    </div>
+  )
+}

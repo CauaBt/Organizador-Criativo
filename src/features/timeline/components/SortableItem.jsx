@@ -7,7 +7,6 @@ export default function SortableItem({
   total,
   onMove
 }) {
-
   const {
     attributes,
     listeners,
@@ -31,6 +30,7 @@ export default function SortableItem({
 
       <div className="timeline-card">
 
+        {/* HEADER (drag aqui) */}
         <div
           className="timeline-header drag-area"
           {...attributes}
@@ -39,6 +39,7 @@ export default function SortableItem({
           <h3>{capitulo.titulo}</h3>
         </div>
 
+        {/* AÇÕES */}
         <div className="timeline-actions">
 
           <input

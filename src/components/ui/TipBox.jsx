@@ -1,7 +1,7 @@
-export default function TipBox({ children }) {
+export default function TipBox({ text }) {
   return (
     <div className="tip-box">
-      💡 {children}
+      {text}
     </div>
   )
 }

@@ -1,24 +1,20 @@
 import { useState, useEffect } from "react"
 import { salvarPersonagens } from "./characterStore"
 import { salvarOuEditarPersonagem, deletarPersonagem } from "./characterLogic"
+import { getTip } from "../../utils/tips"
 
 import Button from "../../components/ui/Button"
 import EmptyState from "../../components/ui/EmptyState"
 import SectionStatus from "../../components/ui/SectionStatus"
 import ConfirmModal from "../../components/modals/ConfirmModal"
+import TipBox from "../../components/ui/TipBox"
 
 import CharacterCard from "./components/CharacterCard"
 import CharacterFormModal from "./components/CharacterFormModal"
 
-
 import { FiUser, FiUsers } from "react-icons/fi"
 
 export default function Characters({ projeto, setProjeto }) {
-
-  useEffect(() => {
-    setPersonagens(projeto.personagens || [])
-  }, [projeto.personagens])
-
 
   const [personagens, setPersonagens] = useState(projeto.personagens || [])
 
@@ -33,7 +29,13 @@ export default function Characters({ projeto, setProjeto }) {
   const [cores, setCores] = useState([])
   const [novaCor, setNovaCor] = useState("#000000")
 
+  // sincroniza com projeto
+  useEffect(() => {
+    setPersonagens(projeto.personagens || [])
+  }, [projeto.personagens])
 
+  // TIP
+  const tip = getTip("characters", projeto)
 
   function abrirCriar() {
     setNome("")
@@ -93,12 +95,13 @@ export default function Characters({ projeto, setProjeto }) {
     setConfirmDelete(null)
   }
 
-
   return (
-
     <div>
 
       <h2>Personagens</h2>
+
+      {/* TIP */}
+      <TipBox text={tip} />
 
       <SectionStatus
         color="blue"
@@ -106,12 +109,12 @@ export default function Characters({ projeto, setProjeto }) {
         title={`Personagens criados: ${personagens.length}`}
         subtitle={
           personagens.length === 0
-          ? "Comece criando seu primeiro personagem"
-          : personagens.length < 3
-          ? "Seu elenco está começando a ganhar forma"
-          : personagens.length < 6
-          ? "Seu elenco já está bem desenvolvido"
-          : "Você tem um elenco rico e completo"
+            ? "Comece criando seu primeiro personagem"
+            : personagens.length < 3
+            ? "Seu elenco está começando a ganhar forma"
+            : personagens.length < 6
+            ? "Seu elenco já está bem desenvolvido"
+            : "Você tem um elenco rico e completo"
         }
         lastEdited={projeto?.ultimaEdicaoPorAba?.characters}
       />
