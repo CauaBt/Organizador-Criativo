@@ -75,15 +75,15 @@ export default function Timeline({ projeto, setProjeto, setTab }) {
       <SectionStatus
         color="orange"
         icon={FiCalendar}
-        title={`Eventos na linha do tempo: ${capitulos.length}`}
+        title={`Sua linha do tempo possui ${capitulos.length} capítulos`}
         subtitle={
           capitulos.length === 0
-            ? "Adicione capítulos para estruturar a linha do tempo"
-            : capitulos.length < 3
-              ? "A sequência da história está começando a se formar"
-              : capitulos.length < 6
-                ? "Sua linha do tempo já está consistente"
-                : "Linha do tempo bem organizada"
+          ? "Adicione capítulos para estruturar a linha do tempo"
+          : capitulos.length < 3
+          ? "A sequência da história está começando a se formar"
+          : capitulos.length < 6
+          ? "Sua linha do tempo já está consistente"
+          : "Linha do tempo bem organizada"
         }
       />
 

@@ -149,13 +149,13 @@ export default function Relationships({ projeto, setProjeto, setTab }) {
       <SectionStatus
         color="pink"
         icon={FiShare2}
-        title={`Relacionamentos mapeados: ${relacoes.length}`}
+        title={`${relacoes.length} relacionamentos conectam seus personagens`}
         subtitle={
           relacoes.length === 0
             ? "Conecte personagens para dar profundidade à narrativa"
-            : relacoes.length < 3
+            : relacoes.length < 4
             ? "As relações estão começando a se formar"
-            : relacoes.length < 6
+            : relacoes.length < 7
             ? "As conexões já estão bem definidas"
             : "Rede de relacionamentos bem desenvolvida"
         }

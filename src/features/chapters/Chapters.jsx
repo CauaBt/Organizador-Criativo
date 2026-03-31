@@ -139,13 +139,13 @@ export default function Chapters({ projeto, setProjeto }) {
         <SectionStatus
           color="yellow"
           icon={FiFileText}
-          title={`Capítulos criados: ${capitulos.length}`}
+          title={`Você já deu vida a ${capitulos.length} capítulos da sua história`}
           subtitle={
             capitulos.length === 0
               ? "Comece criando seu primeiro capítulo"
-              : capitulos.length < 3
+              : capitulos.length < 5
               ? "Sua estrutura narrativa está começando"
-              : capitulos.length < 6
+              : capitulos.length < 10
               ? "Sua história já está bem estruturada"
               : "Estrutura narrativa bem desenvolvida"
           }

@@ -124,15 +124,15 @@ export default function Characters({ projeto, setProjeto }) {
       <SectionStatus
         color="blue"
         icon={FiUsers}
-        title={`Personagens criados: ${personagens.length}`}
+        title={`${personagens.length} personagens fazem parte da sua história`}
         subtitle={
           personagens.length === 0
             ? "Comece criando seu primeiro personagem"
-            : personagens.length < 3
+            : personagens.length < 4
             ? "Seu elenco está começando a ganhar forma"
-            : personagens.length < 6
-            ? "Seu elenco já está bem desenvolvido"
-            : "Você tem um elenco rico e completo"
+            : personagens.length < 7
+            ? "Seu elenco já está ficando completo"
+            : "Você tem um elenco completo!"
         }
         lastEdited={projeto?.ultimaEdicaoPorAba?.characters}
       />
