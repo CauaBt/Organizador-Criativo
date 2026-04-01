@@ -144,7 +144,10 @@ export default function Relationships({ projeto, setProjeto, setTab }) {
       <h2>Relacionamentos</h2>
 
       {/* TIP */}
-      <TipBox text={tip} />
+      <TipBox 
+        text={tip} 
+        color="pink"
+      />
 
       <SectionStatus
         color="pink"

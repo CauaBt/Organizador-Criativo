@@ -70,7 +70,10 @@ export default function Timeline({ projeto, setProjeto, setTab }) {
 
       <h2>Linha do Tempo</h2>
 
-      <TipBox text={tip} />
+      <TipBox 
+        text={tip} 
+        color="orange"
+      />
 
       <SectionStatus
         color="orange"

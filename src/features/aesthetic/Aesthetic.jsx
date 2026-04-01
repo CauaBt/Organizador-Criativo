@@ -151,7 +151,10 @@ export default function Aesthetic({ projeto, setProjeto }) {
         <h2>Estética</h2>
 
         {/* TIP */}
-        <TipBox text={tip} />
+        <TipBox 
+          text={tip} 
+          color="green"
+        />
 
         <SectionStatus
           color="green"

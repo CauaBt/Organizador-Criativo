@@ -119,7 +119,10 @@ export default function Characters({ projeto, setProjeto }) {
       <h2>Personagens</h2>
 
       {/* TIP */}
-      <TipBox text={tip} />
+      <TipBox 
+        text={tip} 
+        color="blue"
+      />
 
       <SectionStatus
         color="blue"

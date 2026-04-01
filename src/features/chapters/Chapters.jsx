@@ -133,7 +133,10 @@ export default function Chapters({ projeto, setProjeto }) {
 
 
         {/* TIP */}
-        <TipBox text={tip} />
+        <TipBox 
+          text={tip} 
+          color="yellow"
+        />
 
 
         <SectionStatus
